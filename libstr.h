@@ -191,11 +191,11 @@ char	*strAppend(const char *dst, const char *src)
 	dst_size = strLength(*dst);
 	src_size = strLength(src);
 	if (0 == src_size)
-		return (*dst);
+		return ((char *)dst);
 	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
 	if (NULL == concat)
 		return (NULL);
-	strCopy(concat, *dst);
+	strCopy(concat, dst);
 	strCopy(concat + dst_size, src);
 	return (concat);
 }
@@ -210,16 +210,16 @@ char	*strnAppend(const char *dst, const char *src, size_t n)
 		return (NULL);
 	if (NULL == dst)
 		return (strnDup(src, n));
-	dst_size = strLength(*dst);
+	dst_size = strLength(dst);
 	src_size = strLength(src);
 	if (0 == src_size)
-		return (*dst);
+		return ((char *)dst);
 	if (n < src_size)
 		src_size = n;
 	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
 	if (NULL == concat)
 		return (NULL);
-	strCopy(concat, *dst);
+	strCopy(concat, dst);
 	strnCopy(concat + dst_size, src, n);
 	return (concat);
 }
