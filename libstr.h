@@ -226,18 +226,33 @@ char	*strnAppend(const char *dst, const char *src, size_t n)
 
 char	*strJoin(const char **s, const char *sep)
 {
-	size_t	index;
-	char	*join;
+	size_t	index = 0;
+	char	*join = NULL;
+	char	*tmp;
 
 	if (NULL == s || NULL == *s || NULL == sep)
 		return (NULL);
-	join = NULL;
-	index = 0;
 	while (*(s + index))
 	{
-		strAppend(&join, *(s + index));
-		if (*(s + index + 1))
-			strAppend(&join, sep);
+		tmp = join;
+		join = strAppend(join, *(s + index));
+		if (NULL == join)
+		{
+			free(tmp);
+			return (NULL);
+		}
+		free(tmp);
+		if (*(s + index))
+		{
+			tmp = join;
+			join = strAppend(join, sep);
+			if (NULL == join)
+			{
+				free(tmp);
+				return (NULL);
+			}
+			free(tmp);
+		}
 		++index;
 	}
 	return (join);
