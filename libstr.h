@@ -16,6 +16,8 @@ size_t	strLength(const char *s);
 
 char	*strChar(const char *s, char c);
 
+char	*strrChar(const char *s, char c);
+
 int		strCompare(const char *s1, const char *s2);
 
 int		strnCompare(const char *s1, const char *s2, size_t n);
@@ -61,6 +63,23 @@ char *strChar(const char *s, char c)
 	if ('\0' == *s && '\0' != c)
 		return (NULL);
 	return ((char *)s);
+}
+
+char	*strrChar(const char *s, char c)
+{
+	char	*last = NULL;
+
+	if (NULL == s)
+		return (NULL);
+	while (*s)
+	{
+		if (*s == c)
+			last = (char *)s;
+		++s;
+	}
+	if ('\0' == c)
+		return ((char *)s);
+	return (last);
 }
 
 int	strCompare(const char *s1, const char *s2)
