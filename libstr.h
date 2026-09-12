@@ -302,20 +302,19 @@ char	**strSplit(const char *str, const char *set)
 
 char	*strTrim(const char *s, const char *set)
 {
-	size_t	index = 0;
 	char	*trimmed;
 
 	if (NULL == s || NULL == set)
 		return (NULL);
-	while (*(s + index))
+	while (*s)
 	{
-		if (strChar(set, *(s + index)))
+		if (strChar(set, *s))
 			break;
-		++index;
+		++s;
 	}
-	if ('\0' == *(s + index))
+	if ('\0' == *s)
 		return (NULL);
-	trimmed = strDup(s + index + 1);
+	trimmed = strDup(s + 1);
 	if (NULL == trimmed)
 		return (NULL);
 	return (trimmed);
