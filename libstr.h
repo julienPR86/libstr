@@ -30,9 +30,9 @@ char	*strDup(const char *s);
 
 char	*strnDup(const char *s, size_t n);
 
-char	*strAppend(char **dst, const char *src);
+char	*strAppend(const char *dst, const char *src);
 
-char	*strnAppend(char **dst, const char *src, size_t n);
+char	*strnAppend(const char *dst, const char *src, size_t n);
 
 char	*strJoin(const char **src, const char *sep);
 
@@ -176,11 +176,11 @@ char	*strnDup(const char *s, size_t n)
 	return (dup);
 }
 
-char	*strAppend(char **dst, const char *src)
+char	*strAppend(const char *dst, const char *src)
 {
 	size_t	dst_size;
 	size_t	src_size;
-	char	*tmp;
+	char	*concat;
 
 	if (NULL == dst || NULL == src)
 		return (NULL);
@@ -188,21 +188,19 @@ char	*strAppend(char **dst, const char *src)
 	src_size = strLength(src);
 	if (0 == src_size)
 		return (*dst);
-	tmp = malloc(sizeof(char) * (dst_size + src_size + 1));
-	if (NULL == tmp)
+	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
+	if (NULL == concat)
 		return (NULL);
-	strCopy(tmp, *dst);
-	strCopy(tmp + dst_size, src);
-	free(*dst);
-	*dst = tmp;
-	return (*dst);
+	strCopy(concat, *dst);
+	strCopy(concat + dst_size, src);
+	return (concat);
 }
 
-char	*strnAppend(char **dst, const char *src, size_t n)
+char	*strnAppend(const char *dst, const char *src, size_t n)
 {
 	size_t	dst_size;
 	size_t	src_size;
-	char	*tmp;
+	char	*concat;
 
 	if (NULL == dst || NULL == src || 0 == n)
 		return (NULL);
@@ -212,14 +210,12 @@ char	*strnAppend(char **dst, const char *src, size_t n)
 		return (*dst);
 	if (n < src_size)
 		src_size = n;
-	tmp = malloc(sizeof(char) * (dst_size + src_size + 1));
-	if (NULL == tmp)
+	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
+	if (NULL == concat)
 		return (NULL);
-	strCopy(tmp, *dst);
-	strnCopy(tmp + dst_size, src, n);
-	free(*dst);
-	*dst = tmp;
-	return (*dst);
+	strCopy(concat, *dst);
+	strnCopy(concat + dst_size, src, n);
+	return (concat);
 }
 
 char	*strJoin(const char **s, const char *sep)
