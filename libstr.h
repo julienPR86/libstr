@@ -185,10 +185,10 @@ char	*strAppend(const char *dst, const char *src)
 	char	*concat;
 
 	if (NULL == src)
-		return (dst);
+		return ((char *)dst);
 	if (NULL == dst)
 		return (strDup(src));
-	dst_size = strLength(*dst);
+	dst_size = strLength(dst);
 	src_size = strLength(src);
 	if (0 == src_size)
 		return ((char *)dst);
@@ -207,7 +207,7 @@ char	*strnAppend(const char *dst, const char *src, size_t n)
 	char	*concat;
 
 	if (NULL == src || 0 == n)
-		return (dst);
+		return ((char *)dst);
 	if (NULL == dst)
 		return (strnDup(src, n));
 	dst_size = strLength(dst);
