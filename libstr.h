@@ -242,7 +242,7 @@ char	*strJoin(const char **s, const char *sep)
 			return (NULL);
 		}
 		free(tmp);
-		if (*(s + index))
+		if (*(s + index + 1))
 		{
 			tmp = join;
 			join = strAppend(join, sep);
