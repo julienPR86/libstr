@@ -34,9 +34,9 @@ char	*strnAppend(char **dst, const char *src, size_t n);
 
 char	*strJoin(const char **src, const char *sep);
 
-void	strDestroy(char **s);
-
 char	**strSplit(const char *src, const char *set);
+
+void	strDestroy(char **s);
 
 # ifdef	LIBSTR_IMPLEMENTATION
 
@@ -220,25 +220,6 @@ char	*strJoin(const char **s, const char *sep)
 	return (join);
 }
 
-void	strDestroy(char **s)
-{
-	size_t	index;
-
-	if (NULL == s)
-		return ;
-	index = 0;
-	while (*(s + index))
-	{
-		free(*(s + index));
-		*(s + index) = NULL;
-		++index;
-	}
-	free(*(s + index));
-	*(s + index) = NULL;
-	free(s);
-	return ;
-}
-
 static size_t	countWords(const char *str, const char *set)
 {
 	size_t	count;
@@ -298,6 +279,25 @@ char	**strSplit(const char *str, const char *set)
 	}
 	*(arr + counter) = NULL;
 	return (arr);
+}
+
+void	strDestroy(char **s)
+{
+	size_t	index;
+
+	if (NULL == s)
+		return ;
+	index = 0;
+	while (*(s + index))
+	{
+		free(*(s + index));
+		*(s + index) = NULL;
+		++index;
+	}
+	free(*(s + index));
+	*(s + index) = NULL;
+	free(s);
+	return ;
 }
 
 # endif
