@@ -30,6 +30,8 @@ char	*strnDup(const char *s, size_t n);
 
 char	*strAppend(char **dst, const char *src);
 
+char	*strnAppend(char **dst, const char *src, size_t n);
+
 char	*strJoin(const char **src, const char *sep);
 
 char	**strSplit(const char *src, const char *set);
@@ -168,6 +170,30 @@ char	*strAppend(char **dst, const char *src)
 		return (NULL);
 	strCopy(tmp, *dst);
 	strCopy(tmp + dst_size, src);
+	free(*dst);
+	*dst = tmp;
+	return (*dst);
+}
+
+char	*strnAppend(char **dst, const char *src, size_t n)
+{
+	size_t	dst_size;
+	size_t	src_size;
+	char	*tmp;
+
+	if (NULL == dst || NULL == src || 0 == n)
+		return (NULL);
+	dst_size = strLength(*dst);
+	src_size = strLength(src);
+	if (0 == src_size)
+		return (*dst);
+	if (n < src_size)
+		src_size = n;
+	tmp = malloc(sizeof(char) * (dst_size + src_size + 1));
+	if (NULL == tmp)
+		return (NULL);
+	strCopy(tmp, *dst);
+	strnCopy(tmp + dst_size, src, n);
 	free(*dst);
 	*dst = tmp;
 	return (*dst);
