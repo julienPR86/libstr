@@ -34,6 +34,8 @@ char	*strnAppend(char **dst, const char *src, size_t n);
 
 char	*strJoin(const char **src, const char *sep);
 
+void	strDestroy(char **s);
+
 char	**strSplit(const char *src, const char *set);
 
 # ifdef	LIBSTR_IMPLEMENTATION
@@ -218,7 +220,7 @@ char	*strJoin(const char **s, const char *sep)
 	return (join);
 }
 
-static void strDestroy(char **s)
+void	strDestroy(char **s)
 {
 	size_t	index;
 
@@ -228,9 +230,11 @@ static void strDestroy(char **s)
 	while (*(s + index))
 	{
 		free(*(s + index));
+		*(s + index) = NULL;
 		++index;
 	}
 	free(*(s + index));
+	*(s + index) = NULL;
 	free(s);
 	return ;
 }
