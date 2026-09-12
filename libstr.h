@@ -44,7 +44,6 @@ char	*strrTrim(const char *s, const char *set);
 
 void	strDestroy(char **s);
 
-# define LIBSTR_IMPLEMENTATION 
 # ifdef	LIBSTR_IMPLEMENTATION
 
 size_t	strLength(const char *s)
@@ -303,19 +302,20 @@ char	**strSplit(const char *str, const char *set)
 
 char	*strTrim(const char *s, const char *set)
 {
+	size_t	index = 0;
 	char	*trimmed;
 
 	if (NULL == s || NULL == set)
 		return (NULL);
-	while (*s)
+	while (*(s + index))
 	{
-		if (strChar(set, *s))
+		if (strChar(set, *(s + index)))
 			break;
-		++s;
+		++index;
 	}
-	if ('\0' == *s)
+	if ('\0' == *(s + index))
 		return (NULL);
-	trimmed = strDup(s + 1);
+	trimmed = strDup(s + index + 1);
 	if (NULL == trimmed)
 		return (NULL);
 	return (trimmed);
