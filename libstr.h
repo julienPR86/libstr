@@ -54,7 +54,7 @@ size_t	strLength(const char *s)
 	return (size);
 }
 
-char *strChar(const char *s, char c)
+char	*strChar(const char *s, char c)
 {
 	if (NULL == s)
 		return (NULL);
@@ -144,7 +144,7 @@ char	*strnCopy(char *dst, const char *src, size_t n)
 	return (dst);
 }
 
-char *strDup(const char *s)
+char	*strDup(const char *s)
 {
 	size_t	size;
 	char	*dup;
@@ -159,7 +159,7 @@ char *strDup(const char *s)
 	return (dup);
 }
 
-char *strnDup(const char *s, size_t n)
+char	*strnDup(const char *s, size_t n)
 {
 	size_t	size;
 	char	*dup;
