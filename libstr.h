@@ -149,7 +149,7 @@ int	strnCompare(const char *s1, const char *s2, size_t n)
 		return (-*s2);
 	if (NULL == s2)
 		return (*s1);
-	while (*(s1 + index) && *(s2 + index) && *(s1 + index) == *(s2 + index) && index < n)
+	while (*(s1 + index) && *(s2 + index) && *(s1 + index) == *(s2 + index) && index < n - 1)
 		++index;
 	return (*(s1 + index) - *(s2 + index));
 }
