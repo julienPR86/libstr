@@ -18,6 +18,8 @@ char	*strChar(const char *s, char c);
 
 char	*strrChar(const char *s, char c);
 
+char	*strChars(const char *s, const char *set);
+
 int		strCompare(const char *s1, const char *s2);
 
 int		strnCompare(const char *s1, const char *s2, size_t n);
@@ -88,6 +90,21 @@ char	*strrChar(const char *s, char c)
 	if ('\0' == c)
 		return ((char *)s);
 	return (last);
+}
+
+char	*strChars(const char *s, const char *set)
+{
+	if (NULL == s || NULL == set)
+		return (NULL);
+	while (*s)
+	{
+		if (strChar(set, *s))
+			break;
+		++s;
+	}
+	if ('\0' == *s && NULL == strChar(set, '\0'))
+		return (NULL);
+	return ((char *)s);
 }
 
 int	strCompare(const char *s1, const char *s2)
