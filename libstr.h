@@ -22,6 +22,8 @@ char	*strChars(const char *s, const char *set);
 
 char	*strrChars(const char *s, const char *set);
 
+char	*strString(const char *s, const char *needle);
+
 int		strCompare(const char *s1, const char *s2);
 
 int		strnCompare(const char *s1, const char *s2, size_t n);
@@ -122,6 +124,24 @@ char	*strrChars(const char *s, const char *set)
 		++s;
 	}
 	return (last);
+}
+
+char	*strString(const char *s, const char *needle)
+{
+	size_t	needle_size;
+	char	*occ;
+
+	if (NULL == s || NULL == needle)
+		return (NULL);
+	needle_size = strLength(needle);
+	occ = strChar(s, *needle);
+	while (occ)
+	{
+		if (0 == strnCompare(occ, needle, needle_size))
+			return (occ);
+		occ = strChar(occ + 1, *needle);
+	}
+	return (NULL);
 }
 
 int	strCompare(const char *s1, const char *s2)
