@@ -52,6 +52,8 @@ char	*strTrim(const char *s, const char *set);
 
 char	*strrTrim(const char *s, const char *set);
 
+size_t	strCountWords(const char *s, const char *set);
+
 void	strDestroy(char **s);
 
 # ifdef	LIBSTR_IMPLEMENTATION
@@ -352,27 +354,24 @@ char	*strJoin(const char *const *s, const char *sep)
 	return (join);
 }
 
-static size_t	countWords(const char *str, const char *set)
+size_t	strCountWords(const char *s, const char *set)
 {
-	size_t	count;
-	size_t	index;
+	size_t	count = 0;
 	bool	is_word;
 
-	if (NULL == str)
+	if (NULL == s || NULL == set)
 		return (0);
 	is_word = 1;
-	count = 0;
-	index = 0;
-	while (*(str + index))
+	while (*s)
 	{
-		if (strChar(set, *(str + index)))
+		if (strChar(set, *s))
 			is_word = 1;
 		else if (is_word)
 		{
 			count++;
 			is_word = 0;
 		}
-		index++;
+		++s;
 	}
 	return (count);
 }
@@ -387,7 +386,7 @@ char	**strSplit(const char *str, const char *set)
 
 	if (NULL == str || NULL == set)
 		return (NULL);
-	wc = countWords(str, set);
+	wc = strCountWords(str, set);
 	arr = (char **)malloc(sizeof(char *) * (wc + 1));
 	if (NULL == arr)
 		return (NULL);
