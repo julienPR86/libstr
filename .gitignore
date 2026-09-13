@@ -1,0 +1,9 @@
+#test files
+Makefile
+test.c
+
+#test executable
+test
+
+#test object files
+objs/
