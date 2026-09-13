@@ -38,7 +38,7 @@ char	*strAppend(char **dst, const char *src);
 
 char	*strnAppend(char **dst, const char *src, size_t n);
 
-char	*strJoin(const char **src, const char *sep);
+char	*strJoin(const char *const *src, const char *sep);
 
 char	**strSplit(const char *src, const char *set);
 
@@ -266,34 +266,32 @@ char	*strnAppend(char **dst, const char *src, size_t n)
 	return (*dst);
 }
 
-char	*strJoin(const char **s, const char *sep)
+char	*strJoin(const char *const *s, const char *sep)
 {
 	size_t	index = 0;
 	char	*join = NULL;
 	char	*tmp;
 
-	if (NULL == s || NULL == *s || NULL == sep)
+	if (NULL == s || NULL == *s)
 		return (NULL);
 	while (*(s + index))
 	{
-		tmp = join;
-		join = strAppend(join, *(s + index));
-		if (NULL == join)
+		tmp = strAppend(&join, *(s + index));
+		if (NULL == tmp)
 		{
-			free(tmp);
+			free(join);
 			return (NULL);
 		}
-		free(tmp);
+		join = tmp;
 		if (*(s + index + 1))
 		{
-			tmp = join;
-			join = strAppend(join, sep);
-			if (NULL == join)
+			tmp = strAppend(&join, sep);
+			if (NULL == tmp)
 			{
-				free(tmp);
+				free(join);
 				return (NULL);
 			}
-			free(tmp);
+			join = tmp;
 		}
 		++index;
 	}
