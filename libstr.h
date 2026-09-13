@@ -28,6 +28,8 @@ char	*strnCopy(char *dst, const char *src, size_t n);
 
 char	*strConcat(char *dst, const char *src);
 
+char	*strnConcat(char *dst, const char *src, size_t n);
+
 char	*strDup(const char *s);
 
 char	*strnDup(const char *s, size_t n);
@@ -160,6 +162,19 @@ char	*strConcat(char *dst, const char *src)
 		return (dst);
 	end = strLength(dst);
 	strCopy(dst + end, src);
+	return (dst);
+}
+
+char	*strnConcat(char *dst, const char *src, size_t n)
+{
+	size_t	end;
+
+	if (NULL == dst)
+		return (NULL);
+	if (NULL == src || 0 == n)
+		return (dst);
+	end = strLength(dst);
+	strnCopy(dst + end, src, n);
 	return (dst);
 }
 
