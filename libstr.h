@@ -34,9 +34,9 @@ char	*strDup(const char *s);
 
 char	*strnDup(const char *s, size_t n);
 
-char	*strAppend(const char *dst, const char *src);
+char	*strAppend(char **dst, const char *src);
 
-char	*strnAppend(const char *dst, const char *src, size_t n);
+char	*strnAppend(char **dst, const char *src, size_t n);
 
 char	*strJoin(const char **src, const char *sep);
 
@@ -208,50 +208,62 @@ char	*strnDup(const char *s, size_t n)
 	return (dup);
 }
 
-char	*strAppend(const char *dst, const char *src)
+char	*strAppend(char **dst, const char *src)
 {
 	size_t	dst_size;
 	size_t	src_size;
 	char	*concat;
 
-	if (NULL == src)
-		return ((char *)dst);
 	if (NULL == dst)
-		return (strDup(src));
-	dst_size = strLength(dst);
+		return (NULL);
+	if (NULL == src)
+		return (*dst);
+	if (NULL == *dst)
+	{
+		*dst = strDup(src);
+		return (*dst);
+	}
+	dst_size = strLength(*dst);
 	src_size = strLength(src);
 	if (0 == src_size)
-		return ((char *)dst);
+		return ((char *)(*dst));
 	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
 	if (NULL == concat)
 		return (NULL);
-	strCopy(concat, dst);
-	strCopy(concat + dst_size, src);
-	return (concat);
+	strCopy(concat, *dst);
+	strConcat(concat, src);
+	free(*dst);
+	*dst = concat;
+	return (*dst);
 }
 
-char	*strnAppend(const char *dst, const char *src, size_t n)
+char	*strnAppend(char **dst, const char *src, size_t n)
 {
 	size_t	dst_size;
 	size_t	src_size;
 	char	*concat;
 
-	if (NULL == src || 0 == n)
-		return ((char *)dst);
 	if (NULL == dst)
-		return (strnDup(src, n));
-	dst_size = strLength(dst);
+		return (NULL);
+	if (NULL == src || 0 == n)
+		return (*dst);
+	if (NULL == *dst)
+	{
+		*dst = strDup(src);
+		return (*dst);
+	}
+	dst_size = strLength(*dst);
 	src_size = strLength(src);
 	if (0 == src_size)
-		return ((char *)dst);
-	if (n < src_size)
-		src_size = n;
+		return ((char *)(*dst));
 	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
 	if (NULL == concat)
 		return (NULL);
-	strCopy(concat, dst);
-	strnCopy(concat + dst_size, src, n);
-	return (concat);
+	strCopy(concat, *dst);
+	strnConcat(concat, src, n);
+	free(*dst);
+	*dst = concat;
+	return (*dst);
 }
 
 char	*strJoin(const char **s, const char *sep)
