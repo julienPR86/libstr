@@ -104,7 +104,7 @@ char	*strChars(const char *s, const char *set)
 			break;
 		++s;
 	}
-	if ('\0' == *s && NULL == strChar(set, '\0'))
+	if ('\0' == *s)
 		return (NULL);
 	return ((char *)s);
 }
