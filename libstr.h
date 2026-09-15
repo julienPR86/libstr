@@ -14,45 +14,45 @@
 
 size_t	strLength(const char *s);
 
-char	*strChar(const char *s, char c);
+char	*strFindChar(const char *s, char c);
 
-char	*strrChar(const char *s, char c);
+char	*strFindCharRev(const char *s, char c);
 
-char	*strChars(const char *s, const char *set);
+char	*strFindChars(const char *s, const char *set);
 
-char	*strrChars(const char *s, const char *set);
+char	*strFindCharsRev(const char *s, const char *set);
 
-char	*strString(const char *s, const char *needle);
+char	*strFind(const char *s, const char *needle);
 
-char	*strnString(const char *s, const char *needle, size_t n);
+char	*strnFind(const char *s, const char *needle, size_t n);
 
 int		strCompare(const char *s1, const char *s2);
 
-int		strnCompare(const char *s1, const char *s2, size_t n);
+int		strCompareN(const char *s1, const char *s2, size_t n);
 
 char	*strCopy(char *dst, const char *src);
 
-char	*strnCopy(char *dst, const char *src, size_t n);
+char	*strCopyN(char *dst, const char *src, size_t n);
 
 char	*strConcat(char *dst, const char *src);
 
-char	*strnConcat(char *dst, const char *src, size_t n);
+char	*strConcatN(char *dst, const char *src, size_t n);
 
 char	*strDup(const char *s);
 
-char	*strnDup(const char *s, size_t n);
+char	*strDupN(const char *s, size_t n);
 
 char	*strAppend(char **dst, const char *src);
 
-char	*strnAppend(char **dst, const char *src, size_t n);
+char	*strAppendN(char **dst, const char *src, size_t n);
 
 char	*strJoin(const char *const *src, const char *sep);
 
 char	**strSplit(const char *src, const char *set);
 
-char	*strTrim(const char *s, const char *set);
+char	*strTrimLeft(const char *s, const char *set);
 
-char	*strrTrim(const char *s, const char *set);
+char	*strTrimRight(const char *s, const char *set);
 
 size_t	strCountWords(const char *s, const char *set);
 
@@ -72,7 +72,7 @@ size_t	strLength(const char *s)
 	return (size);
 }
 
-char	*strChar(const char *s, char c)
+char	*strFindChar(const char *s, char c)
 {
 	if (NULL == s)
 		return (NULL);
@@ -83,7 +83,7 @@ char	*strChar(const char *s, char c)
 	return ((char *)s);
 }
 
-char	*strrChar(const char *s, char c)
+char	*strFindCharRev(const char *s, char c)
 {
 	char	*last = NULL;
 
@@ -100,13 +100,13 @@ char	*strrChar(const char *s, char c)
 	return (last);
 }
 
-char	*strChars(const char *s, const char *set)
+char	*strFindChars(const char *s, const char *set)
 {
 	if (NULL == s || NULL == set)
 		return (NULL);
 	while (*s)
 	{
-		if (strChar(set, *s))
+		if (strFindChar(set, *s))
 			break;
 		++s;
 	}
@@ -115,7 +115,7 @@ char	*strChars(const char *s, const char *set)
 	return ((char *)s);
 }
 
-char	*strrChars(const char *s, const char *set)
+char	*strFindCharsRev(const char *s, const char *set)
 {
 	char	*last = NULL;
 
@@ -123,14 +123,14 @@ char	*strrChars(const char *s, const char *set)
 		return (NULL);
 	while (*s)
 	{
-		if (strChar(set, *s))
+		if (strFindChar(set, *s))
 			last = (char *)s;
 		++s;
 	}
 	return (last);
 }
 
-char	*strString(const char *s, const char *needle)
+char	*strFind(const char *s, const char *needle)
 {
 	size_t	needle_size;
 	char	*occ;
@@ -138,17 +138,17 @@ char	*strString(const char *s, const char *needle)
 	if (NULL == s || NULL == needle)
 		return (NULL);
 	needle_size = strLength(needle);
-	occ = strChar(s, *needle);
+	occ = strFindChar(s, *needle);
 	while (occ)
 	{
-		if (0 == strnCompare(occ, needle, needle_size))
+		if (0 == strCompareN(occ, needle, needle_size))
 			return (occ);
-		occ = strChar(occ + 1, *needle);
+		occ = strFindChar(occ + 1, *needle);
 	}
 	return (NULL);
 }
 
-char	*strnString(const char *s, const char *needle, size_t n)
+char	*strnFind(const char *s, const char *needle, size_t n)
 {
 	size_t	needle_size;
 	char	*occ;
@@ -156,12 +156,12 @@ char	*strnString(const char *s, const char *needle, size_t n)
 	if (NULL == s || NULL == needle || 0 == n)
 		return (NULL);
 	needle_size = strLength(needle);
-	occ = strChar(s, *needle);
+	occ = strFindChar(s, *needle);
 	while (occ)
 	{
-		if (0 == strnCompare(occ, needle, needle_size))
+		if (0 == strCompareN(occ, needle, needle_size))
 			return (occ);
-		occ = strChar(occ + 1, *needle);
+		occ = strFindChar(occ + 1, *needle);
 		if (occ - s + needle_size > n)
 			return (NULL);
 	}
@@ -183,7 +183,7 @@ int	strCompare(const char *s1, const char *s2)
 	return (*(s1 + index) - *(s2 + index));
 }
 
-int	strnCompare(const char *s1, const char *s2, size_t n)
+int	strCompareN(const char *s1, const char *s2, size_t n)
 {
 	size_t	index = 0;
 
@@ -214,7 +214,7 @@ char	*strCopy(char *dst, const char *src)
 	return (dst);
 }
 
-char	*strnCopy(char *dst, const char *src, size_t n)
+char	*strCopyN(char *dst, const char *src, size_t n)
 {
 	size_t	index;
 
@@ -243,7 +243,7 @@ char	*strConcat(char *dst, const char *src)
 	return (dst);
 }
 
-char	*strnConcat(char *dst, const char *src, size_t n)
+char	*strConcatN(char *dst, const char *src, size_t n)
 {
 	size_t	end;
 
@@ -252,7 +252,7 @@ char	*strnConcat(char *dst, const char *src, size_t n)
 	if (NULL == src || 0 == n)
 		return (dst);
 	end = strLength(dst);
-	strnCopy(dst + end, src, n);
+	strCopyN(dst + end, src, n);
 	return (dst);
 }
 
@@ -271,7 +271,7 @@ char	*strDup(const char *s)
 	return (dup);
 }
 
-char	*strnDup(const char *s, size_t n)
+char	*strDupN(const char *s, size_t n)
 {
 	size_t	size;
 	char	*dup;
@@ -282,7 +282,7 @@ char	*strnDup(const char *s, size_t n)
 	dup = malloc(sizeof(char) * (size + 1));
 	if (NULL == dup)
 		return (NULL);
-	strnCopy(dup, s, n);
+	strCopyN(dup, s, n);
 	return (dup);
 }
 
@@ -315,7 +315,7 @@ char	*strAppend(char **dst, const char *src)
 	return (*dst);
 }
 
-char	*strnAppend(char **dst, const char *src, size_t n)
+char	*strAppendN(char **dst, const char *src, size_t n)
 {
 	size_t	dst_size;
 	size_t	src_size;
@@ -338,7 +338,7 @@ char	*strnAppend(char **dst, const char *src, size_t n)
 	if (NULL == concat)
 		return (NULL);
 	strCopy(concat, *dst);
-	strnConcat(concat, src, n);
+	strConcatN(concat, src, n);
 	free(*dst);
 	*dst = concat;
 	return (*dst);
@@ -386,7 +386,7 @@ size_t	strCountWords(const char *s, const char *set)
 	is_word = 1;
 	while (*s)
 	{
-		if (strChar(set, *s))
+		if (strFindChar(set, *s))
 			is_word = 1;
 		else if (is_word)
 		{
@@ -417,12 +417,12 @@ char	**strSplit(const char *str, const char *set)
 	while (counter < wc)
 	{
 		start_index = end_index;
-		while (*(str + start_index) && strChar(set, *(str + start_index)))
+		while (*(str + start_index) && strFindChar(set, *(str + start_index)))
 			start_index++;
 		end_index = start_index;
-		while (*(str + end_index) && !strChar(set, *(str + end_index)))
+		while (*(str + end_index) && !strFindChar(set, *(str + end_index)))
 			end_index++;
-		*(arr + counter) = strnDup(str + start_index, end_index - start_index);
+		*(arr + counter) = strDupN(str + start_index, end_index - start_index);
 		if (NULL == *(arr + counter))
 		{
 			strDestroy(arr);
@@ -434,7 +434,7 @@ char	**strSplit(const char *str, const char *set)
 	return (arr);
 }
 
-char	*strTrim(const char *s, const char *set)
+char	*strTrimLeft(const char *s, const char *set)
 {
 	char	*trimmed;
 
@@ -442,7 +442,7 @@ char	*strTrim(const char *s, const char *set)
 		return (NULL);
 	while (*s)
 	{
-		if (strChar(set, *s))
+		if (strFindChar(set, *s))
 			break;
 		++s;
 	}
@@ -454,7 +454,7 @@ char	*strTrim(const char *s, const char *set)
 	return (trimmed);
 }
 
-char	*strrTrim(const char *s, const char *set)
+char	*strTrimRight(const char *s, const char *set)
 {
 	size_t	index = 0;
 	size_t	last = 0;
@@ -464,13 +464,13 @@ char	*strrTrim(const char *s, const char *set)
 		return (NULL);
 	while (*(s + index))
 	{
-		if (strChar(set, *(s + index)))
+		if (strFindChar(set, *(s + index)))
 			last = index;
 		++index;
 	}
-	if (0 == last && NULL == strChar(set, *s))
+	if (0 == last && NULL == strFindChar(set, *s))
 		return (NULL);
-	trimmed = strnDup(s, last);
+	trimmed = strDupN(s, last);
 	if (NULL == trimmed)
 		return (NULL);
 	return (trimmed);
