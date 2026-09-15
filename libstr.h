@@ -12,50 +12,149 @@
 # include <stdlib.h>
 # include <stdbool.h>
 
+/**
+ * @brief Returns the length of @a s.
+ */
 size_t	strLength(const char *s);
 
+/**
+ * @brief Returns a pointer to the first occurrence of @a c in @a s.
+ * @return A pointer to the occurrence, or NULL if @a c is not found.
+ */
 char	*strFindChar(const char *s, char c);
 
+/**
+ * @brief Returns a pointer to the last occurrence of @a c in @a s.
+ * @return A pointer to the occurrence, or NULL if @a c is not found.
+ */
 char	*strFindCharRev(const char *s, char c);
 
+/**
+ * @brief Returns a pointer to the first occurrence of any character from @a set in @a s.
+ * @return A pointer to the occurrence, or NULL if no character is found.
+ */
 char	*strFindChars(const char *s, const char *set);
 
+/**
+ * @brief Returns a pointer to the last occurrence of any character from @a set in @a s.
+ * @return A pointer to the occurrence, or NULL if no character is found.
+ */
 char	*strFindCharsRev(const char *s, const char *set);
 
+/**
+ * @brief Returns a pointer to the first occurrence of the substring @a needle in @a s.
+ * @return A pointer to the occurrence, or NULL if @a needle is not found.
+ */
 char	*strFind(const char *s, const char *needle);
 
+/**
+ * @brief Returns a pointer to the first occurrence of the substring @a needle within the first @a n characters of @a s.
+ * @return A pointer to the occurrence, or NULL if @a needle is not found.
+ */
 char	*strFindN(const char *s, const char *needle, size_t n);
 
-int		strCompare(const char *s1, const char *s2);
+/**
+ * @brief Compares the two strings @a s1 and @a s2.
+ * @return A negative value if @a s1 is less than @a s2, a positive value if @a s1 is greater than @a s2, or 0 if they are equal.
+ */
+int	strCompare(const char *s1, const char *s2);
 
-int		strCompareN(const char *s1, const char *s2, size_t n);
+/**
+ * @brief Compares at most the first @a n characters of @a s1 and @a s2.
+ * @return A negative value if @a s1 is less than @a s2, a positive value if @a s1 is greater than @a s2, or 0 if they are equal.
+ */
+int	strCompareN(const char *s1, const char *s2, size_t n);
 
+/**
+ * @brief Copies @a src into @a dst.
+ * @warning @a dst must be large enough to hold @a src and its null terminator.
+ * @return @a dst on success, or NULL on failure.
+ */
 char	*strCopy(char *dst, const char *src);
 
+/**
+ * @brief Copies at most the first @a n characters of @a src into @a dst.
+ * @warning @a dst must be large enough to hold the copied characters and the null terminator.
+ * @return @a dst on success, or NULL on failure.
+ */
 char	*strCopyN(char *dst, const char *src, size_t n);
 
+/**
+ * @brief Concatenates @a src to the end of @a dst.
+ * @warning @a dst must be null-terminated and large enough to hold the result.
+ * @return @a dst on success, or NULL on failure.
+ */
 char	*strConcat(char *dst, const char *src);
 
+/**
+ * @brief Concatenates at most the first @a n characters of @a src to @a dst.
+ * @warning @a dst must be null-terminated and large enough to hold the result.
+ * @return @a dst on success, or NULL on failure.
+ */
 char	*strConcatN(char *dst, const char *src, size_t n);
 
+/**
+ * @brief Returns an allocated copy of @a s.
+ * @return A pointer to the allocated string, or NULL on failure.
+ */
 char	*strDup(const char *s);
 
+/**
+ * @brief Returns an allocated copy of the first @a n characters of @a s.
+ * @return A pointer to the allocated string, or NULL on failure.
+ */
 char	*strDupN(const char *s, size_t n);
 
+/**
+ * @brief Appends @a src to the end of @a dst.
+ * @param dst A pointer to the allocated string to modify.
+ * @return A pointer to the resulting string, or NULL on failure.
+ */
 char	*strAppend(char **dst, const char *src);
 
+/**
+ * @brief Appends at most the first @a n characters of @a src to @a dst.
+ * @param dst A pointer to the allocated string to modify.
+ * @return A pointer to the resulting string, or NULL on failure.
+ */
 char	*strAppendN(char **dst, const char *src, size_t n);
 
+/**
+ * @brief Joins all strings in @a src, using @a sep as a separator.
+ * @param src An array of strings.
+ * @param sep The separator to insert between strings.
+ * @return The allocated joined string, or NULL on failure.
+ */
 char	*strJoin(const char *const *src, const char *sep);
 
+/**
+ * @brief Splits @a src whenever a character from @a set is found.
+ * @return An allocated array of strings, or NULL on failure.
+ */
 char	**strSplit(const char *src, const char *set);
 
+/**
+ * @brief Removes leading characters from @a s that belong to @a set.
+ * @return The allocated trimmed string, or NULL on failure.
+ */
 char	*strTrimLeft(const char *s, const char *set);
 
+/**
+ * @brief Removes trailing characters from @a s that belong to @a set.
+ * @return The allocated trimmed string, or NULL on failure.
+ */
 char	*strTrimRight(const char *s, const char *set);
 
+/**
+ * @brief Returns the number of words in @a s.
+ *
+ * A word is separated by one or more characters from @a set.
+ */
 size_t	strCountWords(const char *s, const char *set);
 
+/**
+ * @brief Frees an array of strings.
+ */
 void	strDestroy(char **s);
 
 # ifdef	LIBSTR_IMPLEMENTATION
