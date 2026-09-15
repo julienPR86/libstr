@@ -24,7 +24,7 @@ char	*strFindCharsRev(const char *s, const char *set);
 
 char	*strFind(const char *s, const char *needle);
 
-char	*strnFind(const char *s, const char *needle, size_t n);
+char	*strFindN(const char *s, const char *needle, size_t n);
 
 int		strCompare(const char *s1, const char *s2);
 
@@ -148,7 +148,7 @@ char	*strFind(const char *s, const char *needle)
 	return (NULL);
 }
 
-char	*strnFind(const char *s, const char *needle, size_t n)
+char	*strFindN(const char *s, const char *needle, size_t n)
 {
 	size_t	needle_size;
 	char	*occ;
