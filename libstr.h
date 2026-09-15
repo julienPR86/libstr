@@ -147,6 +147,12 @@ char	*strTrimLeft(const char *s, const char *set);
 char	*strTrimRight(const char *s, const char *set);
 
 /**
+ * @brief Returns the substring of @a s from @a start to @a end, inclusive.
+ * @return The allocated substring, or NULL on failure.
+ */
+char	*strSub(const char *s, size_t start, size_t end);
+
+/**
  * @brief Returns the number of words in @a s.
  *
  * A word is separated by one or more characters from @a set.
@@ -575,6 +581,20 @@ char	*strTrimRight(const char *s, const char *set)
 	if (NULL == trimmed)
 		return (NULL);
 	return (trimmed);
+}
+
+char	*strSub(const char *s, size_t start, size_t end)
+{
+	const size_t	slen = strLength(s);
+	char			*sub;
+
+	if (NULL == s || start > slen || start > end)
+		return (NULL);
+	sub = malloc(((end < slen ? end : slen) - start + 2) * sizeof(char));
+	if (NULL == sub)
+		return (NULL);
+	strCopyN(sub, s + start, end - start + 1);
+	return (sub);
 }
 
 void	strDestroy(char **strs)
