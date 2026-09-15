@@ -123,6 +123,7 @@ char	*strAppendN(char **dst, const char *src, size_t n);
  * @brief Joins all strings in @a src, using @a sep as a separator.
  * @param src An array of strings.
  * @param sep The separator to insert between strings.
+ * @warning @a src must end with a NULL pointer to indicate the end of the array.
  * @return The allocated joined string, or NULL on failure.
  */
 char	*strJoin(const char *const *src, const char *sep);
@@ -154,6 +155,7 @@ size_t	strCountWords(const char *s, const char *set);
 
 /**
  * @brief Frees an array of strings.
+ * @warning @a s must end with a NULL pointer to indicate the end of the array.
  */
 void	strDestroy(char **s);
 
