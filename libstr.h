@@ -546,7 +546,7 @@ char	*strTrimLeft(const char *s, const char *set)
 		++s;
 	}
 	if ('\0' == *s)
-		return (NULL);
+		return (strDup(s));
 	trimmed = strDup(s + 1);
 	if (NULL == trimmed)
 		return (NULL);
@@ -568,7 +568,7 @@ char	*strTrimRight(const char *s, const char *set)
 		++index;
 	}
 	if (0 == last && NULL == strFindChar(set, *s))
-		return (NULL);
+		return (strDup(s));
 	trimmed = strDupN(s, last);
 	if (NULL == trimmed)
 		return (NULL);
