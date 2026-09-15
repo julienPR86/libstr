@@ -157,7 +157,7 @@ size_t	strCountWords(const char *s, const char *set);
  * @brief Frees an array of strings.
  * @warning @a s must end with a NULL pointer to indicate the end of the array.
  */
-void	strDestroy(char **s);
+void	strDestroy(char **strs);
 
 # ifdef	LIBSTR_IMPLEMENTATION
 
@@ -577,22 +577,22 @@ char	*strTrimRight(const char *s, const char *set)
 	return (trimmed);
 }
 
-void	strDestroy(char **s)
+void	strDestroy(char **strs)
 {
 	size_t	index;
 
-	if (NULL == s)
+	if (NULL == strs)
 		return ;
 	index = 0;
-	while (*(s + index))
+	while (*(strs + index))
 	{
-		free(*(s + index));
-		*(s + index) = NULL;
+		free(*(strs + index));
+		*(strs + index) = NULL;
 		++index;
 	}
-	free(*(s + index));
-	*(s + index) = NULL;
-	free(s);
+	free(*(strs + index));
+	*(strs + index) = NULL;
+	free(strs);
 	return ;
 }
 
