@@ -160,6 +160,12 @@ char	*strSub(const char *s, size_t start, size_t end);
 int		strToInt(const char *s);
 
 /**
+ * @brief Converts the initial portion of @a s to a long integer.
+ * @return The converted long integer on success, 0 if the conversion is impossible.
+ */
+long	strToLong(const char *s);
+
+/**
  * @brief Returns the number of words in @a s.
  *
  * A word is separated by one or more characters from @a set.
@@ -622,6 +628,31 @@ int	strToInt(const char *s)
 	while (isdigit(*s))
 	{
 		if (n * sign > (2147483647 - (*s - '0')) / 10 || n * sign < (-2147483648 + *s - '0') / 10)
+			return (0);
+		n = n * 10 + *s - '0';
+		++s;
+	}
+	return (n * sign);
+}
+
+long	strToLong(const char *s)
+{
+	long	n = 0;
+	int		sign = 1;
+
+	if (NULL == s)
+		return (0);
+	while (isspace(*s))
+		++s;
+	if ('-' == *s || '+' == *s)
+	{
+		if ('-' == *s)
+			sign = -1;
+		++s;
+	}
+	while (isdigit(*s))
+	{
+		if (n * sign > (9223372036854775807L - (*s - '0')) / 10 || n * sign < (-9223372036854775807L + *s - '0') / 10)
 			return (0);
 		n = n * 10 + *s - '0';
 		++s;
