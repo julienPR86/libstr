@@ -497,28 +497,6 @@ char	*strJoin(const char *const *s, const char *sep)
 	return (join);
 }
 
-size_t	strCountWords(const char *s, const char *set)
-{
-	size_t	count = 0;
-	bool	is_word;
-
-	if (NULL == s || NULL == set)
-		return (0);
-	is_word = 1;
-	while (*s)
-	{
-		if (strFindChar(set, *s))
-			is_word = 1;
-		else if (is_word)
-		{
-			count++;
-			is_word = 0;
-		}
-		++s;
-	}
-	return (count);
-}
-
 char	**strSplit(const char *str, const char *set)
 {
 	char	**arr;
@@ -659,6 +637,28 @@ long	strToLong(const char *s)
 		++s;
 	}
 	return (n * sign);
+}
+
+size_t	strCountWords(const char *s, const char *set)
+{
+	size_t	count = 0;
+	bool	is_word;
+
+	if (NULL == s || NULL == set)
+		return (0);
+	is_word = 1;
+	while (*s)
+	{
+		if (strFindChar(set, *s))
+			is_word = 1;
+		else if (is_word)
+		{
+			count++;
+			is_word = 0;
+		}
+		++s;
+	}
+	return (count);
 }
 
 void	strDestroy(char **strs)
