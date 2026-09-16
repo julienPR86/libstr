@@ -11,6 +11,7 @@
 
 # include <stdlib.h>
 # include <ctype.h>
+# include <limits.h>
 # include <stdbool.h>
 
 /**
@@ -627,7 +628,7 @@ int	strToInt(const char *s)
 	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (2147483647 - (*s - '0')) / 10 || n * sign < (-2147483648 + *s - '0') / 10)
+		if (n * sign > (INT_MAX - (*s - '0')) / 10 || n * sign < (INT_MIN + *s - '0') / 10)
 			return (0);
 		n = n * 10 + *s - '0';
 		++s;
@@ -652,7 +653,7 @@ long	strToLong(const char *s)
 	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (9223372036854775807L - (*s - '0')) / 10 || n * sign < (-9223372036854775807L + *s - '0') / 10)
+		if (n * sign > (LONG_MAX - (*s - '0')) / 10 || n * sign < (LONG_MIN + *s - '0') / 10)
 			return (0);
 		n = n * 10 + *s - '0';
 		++s;
