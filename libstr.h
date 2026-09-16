@@ -10,6 +10,7 @@
 # define LIBSTR_H
 
 # include <stdlib.h>
+# include <ctype.h>
 # include <stdbool.h>
 
 /**
@@ -151,6 +152,12 @@ char	*strTrimRight(const char *s, const char *set);
  * @return The allocated substring, or NULL on failure.
  */
 char	*strSub(const char *s, size_t start, size_t end);
+
+/**
+ * @brief Converts the initial portion of @a s to an integer.
+ * @return The converted integer on success, 0 if the conversion is impossible.
+ */
+int		strToInt(const char *s);
 
 /**
  * @brief Returns the number of words in @a s.
@@ -595,6 +602,31 @@ char	*strSub(const char *s, size_t start, size_t end)
 		return (NULL);
 	strCopyN(sub, s + start, end - start + 1);
 	return (sub);
+}
+
+int	strToInt(const char *s)
+{
+	int	n = 0;
+	int	sign = 1;
+
+	if (NULL == s)
+		return (0);
+	while (isspace(*s))
+		++s;
+	if ('-' == *s || '+' == *s)
+	{
+		if ('-' == *s)
+			sign = -1;
+		++s;
+	}
+	while (isdigit(*s))
+	{
+		if (n * sign > (2147483647 - (*s - '0')) / 10 || n * sign < (-2147483648 + *s - '0') / 10)
+			return (0);
+		n = n * 10 + *s - '0';
+		++s;
+	}
+	return (n * sign);
 }
 
 void	strDestroy(char **strs)
