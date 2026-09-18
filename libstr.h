@@ -122,6 +122,13 @@ char	*strAppend(char **dst, const char *src);
 char	*strAppendN(char **dst, const char *src, size_t n);
 
 /**
+ * @brief Inserts @a src into @a dst at @a index.
+ * @param dst A pointer to the allocated string to modify.
+ * @return A pointer to the resulting string, or NULL on failure.
+ */
+char	*strInsert(char **dst, const char *src, size_t index);
+
+/**
  * @brief Joins all strings in @a src, using @a sep as a separator.
  * @param src An array of strings.
  * @param sep The separator to insert between strings.
@@ -468,6 +475,29 @@ char	*strAppendN(char **dst, const char *src, size_t n)
 	strConcatN(concat, src, n);
 	free(*dst);
 	*dst = concat;
+	return (*dst);
+}
+
+char	*strInsert(char **dst, const char *src, size_t index)
+{
+	char	*insert;
+	size_t	src_size;
+	size_t	dst_size;
+
+	if (NULL == dst)
+		return (NULL);
+	dst_size = strLength(*dst);
+	if (NULL == src || index > dst_size)
+		return (*dst);
+	src_size = strLength(src);
+	insert = calloc(dst_size + src_size + 1, sizeof(char));
+	if (NULL == insert)
+		return (NULL);
+	strCopyN(insert, *dst, index);
+	strConcat(insert, src);
+	strConcat(insert, (*dst) + index);
+	free(*dst);
+	*dst = insert;
 	return (*dst);
 }
 
