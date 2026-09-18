@@ -167,6 +167,12 @@ int		strToInt(const char *s);
 long	strToLong(const char *s);
 
 /**
+ * @brief Converts the initial portion of @a s to a double.
+ * @return The converted double on success, 0 if the conversion is impossible.
+ */
+double	strToDouble(const char *s);
+
+/**
  * @brief Returns the number of words in @a s.
  *
  * A word is separated by one or more characters from @a set.
@@ -637,6 +643,38 @@ long	strToLong(const char *s)
 		++s;
 	}
 	return (n * sign);
+}
+
+double	strToDouble(const char *s)
+{
+	double	f = 0.0;
+	double	precision = 10.0;
+	int		sign = 1;
+
+	if (NULL == s)
+		return (0);
+	while (isspace(*s))
+		++s;
+	if ('-' == *s || '+' == *s)
+	{
+		if ('-' == *s)
+			sign = -1;
+		++s;
+	}
+	while (isdigit(*s))
+	{
+		f = f * 10 + *s - '0';
+		++s;
+	}
+	if ('.' == *s)
+		++s;
+	while (isdigit(*s))
+	{
+		f += (*s - '0') / precision;
+		precision *= 10;
+		++s;
+	}
+	return (f * sign);
 }
 
 size_t	strCountWords(const char *s, const char *set)
