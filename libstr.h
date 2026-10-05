@@ -478,7 +478,7 @@ char	*strAppendN(char **dst, const char *src, size_t n)
 		return (*dst);
 	if (NULL == *dst)
 	{
-		*dst = strDup(src);
+		*dst = strDupN(src, n);
 		return (*dst);
 	}
 	dst_size = strLengthN(*dst, n);
