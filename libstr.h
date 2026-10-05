@@ -20,6 +20,11 @@
 size_t	strLength(const char *s);
 
 /**
+ * @brief Returns @a n if smaller than the length of @a s.
+ */
+size_t	strLengthN(const char *s, size_t n);
+
+/**
  * @brief Returns a pointer to the first occurrence of @a c in @a s.
  * @return A pointer to the occurrence, or NULL if @a c is not found.
  */
@@ -202,6 +207,18 @@ size_t	strLength(const char *s)
 		return (0);
 	size = 0;
 	while (*(s + size))
+		++size;
+	return (size);
+}
+
+size_t	strLengthN(const char *s, size_t n)
+{
+	size_t	size;
+
+	if (NULL == s || 0 == n)
+		return (0);
+	size = 0;
+	while (*(s + size) && size < n)
 		++size;
 	return (size);
 }
