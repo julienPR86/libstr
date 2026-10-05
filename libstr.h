@@ -402,7 +402,7 @@ char	*strConcatN(char *dst, const char *src, size_t n)
 		return (NULL);
 	if (NULL == src || 0 == n)
 		return (dst);
-	end = strLengthN(dst, n);
+	end = strLength(dst);
 	strCopyN(dst + end, src, n);
 	return (dst);
 }
@@ -481,7 +481,7 @@ char	*strAppendN(char **dst, const char *src, size_t n)
 		*dst = strDupN(src, n);
 		return (*dst);
 	}
-	dst_size = strLengthN(*dst, n);
+	dst_size = strLength(*dst);
 	src_size = strLengthN(src, n);
 	if (0 == src_size)
 		return ((char *)(*dst));
