@@ -306,7 +306,7 @@ char	*strFindN(const char *s, const char *needle, size_t n)
 
 	if (NULL == s || NULL == needle || 0 == n)
 		return (NULL);
-	needle_size = strLength(needle);
+	needle_size = strLengthN(needle, n);
 	occ = strFindChar(s, *needle);
 	while (occ)
 	{
@@ -402,7 +402,7 @@ char	*strConcatN(char *dst, const char *src, size_t n)
 		return (NULL);
 	if (NULL == src || 0 == n)
 		return (dst);
-	end = strLength(dst);
+	end = strLengthN(dst, n);
 	strCopyN(dst + end, src, n);
 	return (dst);
 }
@@ -429,7 +429,7 @@ char	*strDupN(const char *s, size_t n)
 
 	if (NULL == s)
 		return (NULL);
-	size = strLength(s);
+	size = strLengthN(s, n);
 	dup = malloc(sizeof(char) * (size + 1));
 	if (NULL == dup)
 		return (NULL);
@@ -481,8 +481,8 @@ char	*strAppendN(char **dst, const char *src, size_t n)
 		*dst = strDup(src);
 		return (*dst);
 	}
-	dst_size = strLength(*dst);
-	src_size = strLength(src);
+	dst_size = strLengthN(*dst, n);
+	src_size = strLengthN(src, n);
 	if (0 == src_size)
 		return ((char *)(*dst));
 	concat = malloc(sizeof(char) * (dst_size + src_size + 1));
