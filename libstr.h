@@ -167,6 +167,12 @@ char	*strTrimLeft(const char *s, const char *set);
 char	*strTrimRight(const char *s, const char *set);
 
 /**
+ * @brief Removes leading characters from @a s until @a isdelimFn returns a non-zero value.
+ * @return The allocated trimmed string, or NULL on failure.
+ */
+char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c));
+
+/**
  * @brief Returns the substring of @a s from @a start to @a end, inclusive.
  * @return The allocated substring, or NULL on failure.
  */
@@ -645,6 +651,20 @@ char	*strTrimRight(const char *s, const char *set)
 	trimmed = strDupN(s, last);
 	if (NULL == trimmed)
 		return (NULL);
+	return (trimmed);
+}
+
+char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c))
+{
+	char	*trimmed;
+
+	if (NULL == s)
+		return (NULL);
+	if (NULL == isdelimFn)
+		return (strDup(s));
+	while (*s && !isdelimFn(*s))
+		++s;
+	trimmed = strDup(s);
 	return (trimmed);
 }
 
