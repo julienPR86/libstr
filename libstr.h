@@ -644,17 +644,19 @@ char	*strTrimRight(const char *s, const char *set)
 	size_t	last = 0;
 	char	*trimmed;
 
-	if (NULL == s || NULL == set)
+	if (NULL == s)
 		return (NULL);
+	if (NULL == set)
+		return (strDup(s));
+	if (1 == strLength(s) && strFindChar(set, *s))
+		return (strDup(""));
 	while (*(s + index))
 	{
-		if (strFindChar(set, *(s + index)))
+		if (!strFindChar(set, *(s + index)))
 			last = index;
 		++index;
 	}
-	if (0 == last && NULL == strFindChar(set, *s))
-		return (strDup(s));
-	trimmed = strDupN(s, last);
+	trimmed = strDupN(s, last + 1);
 	if (NULL == trimmed)
 		return (NULL);
 	return (trimmed);
