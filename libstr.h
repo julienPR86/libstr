@@ -173,6 +173,12 @@ char	*strTrimRight(const char *s, const char *set);
 char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c));
 
 /**
+ * @brief Removes trailing characters from @a s until @a isdelimFn returns a non-zero value.
+ * @return The allocated trimmed string, or NULL on failure.
+ */
+char	*strTrimRightUntil(const char *s, int (*isdelimFn)(int c));
+
+/**
  * @brief Returns the substring of @a s from @a start to @a end, inclusive.
  * @return The allocated substring, or NULL on failure.
  */
@@ -665,6 +671,30 @@ char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c))
 	while (*s && !isdelimFn(*s))
 		++s;
 	trimmed = strDup(s);
+	return (trimmed);
+}
+
+char	*strTrimRightUntil(const char *s, int (*isdelimFn)(int c))
+{
+	size_t	index = 0;
+	size_t	last = 0;
+	char	*trimmed;
+
+	if (NULL == s)
+		return (NULL);
+	if (NULL == isdelimFn)
+		return (strDup(s));
+	while (*(s + index))
+	{
+		if (isdelimFn(*(s + index)))
+			last = index;
+		++index;
+	}
+	if (0 == last && !isdelimFn(*s))
+		return (strDup(s));
+	trimmed = strDupN(s, last + 1);
+	if (NULL == trimmed)
+		return (NULL);
 	return (trimmed);
 }
 
