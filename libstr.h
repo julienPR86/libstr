@@ -25,6 +25,12 @@ size_t	strLength(const char *s);
 size_t	strLengthN(const char *s, size_t n);
 
 /**
+ * @brief Sets the firsts @a n bytes from @a s to @a c.
+ * @return The pointer to @a s.
+ */
+char	*strSetN(char *s, int c, size_t n);
+
+/**
  * @brief Returns a pointer to the first occurrence of @a c in @a s.
  * @return A pointer to the occurrence, or NULL if @a c is not found.
  */
@@ -221,6 +227,20 @@ size_t	strLengthN(const char *s, size_t n)
 	while (*(s + size) && size < n)
 		++size;
 	return (size);
+}
+
+char	*strSetN(char *s, int c, size_t n)
+{
+	size_t	index = 0;
+
+	if (NULL == s)
+		return (NULL);
+	while (index < n)
+	{
+		*(s + index) = c;
+		++index;
+	}
+	return (s);
 }
 
 char	*strFindChar(const char *s, char c)
