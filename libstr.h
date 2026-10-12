@@ -785,6 +785,6 @@ void	strDestroy(char **strs)
 	return ;
 }
 
-# endif
+# endif // LIBSTR_IMPLEMENTATION
 
-#endif
+#endif // LIBSTR_H
