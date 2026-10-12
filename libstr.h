@@ -622,8 +622,10 @@ char	*strTrimLeft(const char *s, const char *set)
 {
 	char	*trimmed;
 
-	if (NULL == s || NULL == set)
+	if (NULL == s )
 		return (NULL);
+	if (NULL == set)
+		return (strDup(s));
 	while (*s && strFindChar(set, *s))
 		++s;
 	if ('\0' == *s)
