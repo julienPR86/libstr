@@ -19,6 +19,12 @@
 void	*strMemSet(void *s, int c, size_t n);
 
 /**
+ * @brief Returns a pointer to the first occurrence of @a c in @a s within the first @a n bytes.
+ * @return A pointer to the occurrence, or NULL if @a c is not found.
+ */
+void	*strMemFindFirstByte(const void *s, int c, size_t n);
+
+/**
  * @brief Returns the length of @a s.
  */
 size_t	strLength(const char *s);
@@ -244,6 +250,17 @@ void	*strMemSet(void *s, int c, size_t n)
 		++index;
 	}
 	return (s);
+}
+
+void	*strMemFindFirstByte(const void *s, int c, size_t n)
+{
+	size_t		index = 0;
+
+	if (NULL == s)
+		return (NULL);
+	while (index < n && *((const char *)s + index) != (char)c)
+		++index;
+	return ((void *)s + index);
 }
 
 size_t	strLength(const char *s)
