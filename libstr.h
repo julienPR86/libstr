@@ -37,6 +37,13 @@ void	*strMemFindLastByte(const void *s, int c, size_t n);
 int	strMemCompare(const void *s1, const void *s2, size_t n);
 
 /**
+ * @brief Copies at most the first @a n bytes of @a src into @a dst.
+ * @warning @a dst must be large enough to hold the copied bytes.
+ * @return @a dst on success, or NULL on failure.
+ */
+void	*strMemCopy(void *dst, const void *src, size_t n);
+
+/**
  * @brief Returns the length of @a s.
  */
 size_t	strLength(const char *s);
@@ -306,6 +313,20 @@ int	strMemCompare(const void *s1, const void *s2, size_t n)
 	while (*((char *)s1 + index) && *((char *)s2 + index) && *((char *)s1 + index) == *((char *)s2 + index) && index < n - 1)
 		++index;
 	return (*((char *)s1 + index) - *((char *)s2 + index));
+}
+
+void	*strMemCopy(void *dst, const void *src, size_t n)
+{
+	size_t	index = 0;
+
+	if (NULL == dst || NULL == src)
+		return (NULL);
+	while (index < n)
+	{
+		*((char *)dst + index) = *((char *)src + index);
+		++index;
+	}
+	return (dst);
 }
 
 size_t	strLength(const char *s)
