@@ -476,7 +476,7 @@ int	strCompareN(const char *s1, const char *s2, size_t n)
 {
 	size_t	index = 0;
 
-	if (NULL == s1 && NULL == s2)
+	if ((NULL == s1 && NULL == s2) || 0 == n)
 		return (0);
 	if (NULL == s1)
 		return (-*s2);
