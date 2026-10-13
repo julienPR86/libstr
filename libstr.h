@@ -266,6 +266,8 @@ void	*strMemFindFirstByte(const void *s, int c, size_t n)
 		return (NULL);
 	while (index < n && *((const char *)s + index) != (char)c)
 		++index;
+	if (index >= n)
+		return (NULL);
 	return ((void *)s + index);
 }
 
