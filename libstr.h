@@ -14,6 +14,11 @@
 # include <limits.h>
 
 /**
+ * @brief Sets the firsts @a n bytes from @a s to @a c.
+ */
+void	*strMemSet(void *s, int c, size_t n);
+
+/**
  * @brief Returns the length of @a s.
  */
 size_t	strLength(const char *s);
@@ -27,12 +32,6 @@ size_t	strLengthN(const char *s, size_t n);
  * @brief Returns a pointer to the end of @a s, the terminating null character.
  */
 char	*strEnd(const char *s);
-
-/**
- * @brief Sets the firsts @a n bytes from @a s to @a c.
- * @return The pointer to @a s.
- */
-char	*strSetN(char *s, int c, size_t n);
 
 /**
  * @brief Returns a pointer to the first occurrence of @a c in @a s.
@@ -233,6 +232,20 @@ void	strDestroy(char **strs);
 
 # ifdef	LIBSTR_IMPLEMENTATION
 
+void	*strMemSet(void *s, int c, size_t n)
+{
+	size_t	index = 0;
+
+	if (NULL == s)
+		return (NULL);
+	while (index < n)
+	{
+		*((char *)s + index) = c;
+		++index;
+	}
+	return (s);
+}
+
 size_t	strLength(const char *s)
 {
 	size_t	size;
@@ -262,20 +275,6 @@ char	*strEnd(const char *s)
 	if (NULL == s)
 		return (NULL);
 	return ((char *)s + strLength(s));
-}
-
-char	*strSetN(char *s, int c, size_t n)
-{
-	size_t	index = 0;
-
-	if (NULL == s)
-		return (NULL);
-	while (index < n)
-	{
-		*(s + index) = c;
-		++index;
-	}
-	return (s);
 }
 
 char	*strFindFirstOfChar(const char *s, char c)
