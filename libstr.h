@@ -25,6 +25,11 @@ size_t	strLength(const char *s);
 size_t	strLengthN(const char *s, size_t n);
 
 /**
+ * @brief Returns a pointer to the end of @a s, the terminating null character.
+ */
+char	*strEnd(const char *s);
+
+/**
  * @brief Sets the firsts @a n bytes from @a s to @a c.
  * @return The pointer to @a s.
  */
@@ -251,6 +256,13 @@ size_t	strLengthN(const char *s, size_t n)
 	while (*(s + size) && size < n)
 		++size;
 	return (size);
+}
+
+char	*strEnd(const char *s)
+{
+	if (NULL == s)
+		return (NULL);
+	return (s + strLength(s));
 }
 
 char	*strSetN(char *s, int c, size_t n)
