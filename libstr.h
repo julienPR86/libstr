@@ -31,6 +31,12 @@ void	*strMemFindFirstByte(const void *s, int c, size_t n);
 void	*strMemFindLastByte(const void *s, int c, size_t n);
 
 /**
+ * @brief Compares at most the first @a n bytes of @a s1 and @a s2.
+ * @return A negative value if @a s1 is less than @a s2, a positive value if @a s1 is greater than @a s2, or 0 if they are equal.
+ */
+int	strMemCompare(const void *s1, const void *s2, size_t n);
+
+/**
  * @brief Returns the length of @a s.
  */
 size_t	strLength(const char *s);
@@ -285,6 +291,21 @@ void	*strMemFindLastByte(const void *s, int c, size_t n)
 		++index;
 	}
 	return (last);
+}
+
+int	strMemCompare(const void *s1, const void *s2, size_t n)
+{
+	size_t	index = 0;
+
+	if ((NULL == s1 && NULL == s2) || 0 == n)
+		return (0);
+	if (NULL == s1)
+		return (-*(char *)s2);
+	if (NULL == s2)
+		return (*(char *)s1);
+	while (*((char *)s1 + index) && *((char *)s2 + index) && *((char *)s1 + index) == *((char *)s2 + index) && index < n - 1)
+		++index;
+	return (*((char *)s1 + index) - *((char *)s2 + index));
 }
 
 size_t	strLength(const char *s)
