@@ -261,7 +261,7 @@ char	*strEnd(const char *s)
 {
 	if (NULL == s)
 		return (NULL);
-	return (s + strLength(s));
+	return ((char *)s + strLength(s));
 }
 
 char	*strSetN(char *s, int c, size_t n)
