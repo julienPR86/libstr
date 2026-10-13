@@ -44,6 +44,15 @@ int	strMemCompare(const void *s1, const void *s2, size_t n);
 void	*strMemCopy(void *dst, const void *src, size_t n);
 
 /**
+ * @brief Copies at most the first @a n bytes of @a src into @a dst. 
+ * 
+ * @a dst and @a src memory area may overlap.
+ * @warning @a dst must be large enough to hold the copied bytes.
+ * @return @a dst on success, or NULL on failure.
+ */
+void	*strMemMove(void *dst, const void *src, size_t n);
+
+/**
  * @brief Returns the length of @a s.
  */
 size_t	strLength(const char *s);
@@ -327,6 +336,22 @@ void	*strMemCopy(void *dst, const void *src, size_t n)
 		++index;
 	}
 	return (dst);
+}
+
+void	*strMemMove(void *dst, const void *src, size_t n)
+{
+	if (NULL == dst)
+		return (NULL);
+	if (NULL == src || 0 == n)
+		return (dst);
+	if (dst < src || dst > src + n)
+		return (strMemCopy(dst, src, n));
+	while (n > 0)
+	{
+		*((char *)dst + n - 1) = *((char *)src + n - 1);
+		--n;
+	}
+	return (dst);	
 }
 
 size_t	strLength(const char *s)
