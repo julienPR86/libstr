@@ -49,6 +49,12 @@ char	*strFindLastOfChar(const char *s, char c);
 char	*strFindFirstOf(const char *s, const char *set);
 
 /**
+ * @brief Returns a pointer to the first occurrence of any character from @a s that doesn't appear in @a set.
+ * @return A pointer to the occurrence, or NULL if no character is found.
+ */
+char	*strFindFirstNotOf(const char *s, const char *set);
+
+/**
  * @brief Returns a pointer to the last occurrence of any character from @a set in @a s.
  * @return A pointer to the occurrence, or NULL if no character is found.
  */
@@ -293,6 +299,17 @@ char	*strFindFirstOf(const char *s, const char *set)
 			break;
 		++s;
 	}
+	if ('\0' == *s)
+		return (NULL);
+	return ((char *)s);
+}
+
+char	*strFindFirstNotOf(const char *s, const char *set)
+{
+	if (NULL == s || NULL == set)
+		return (NULL);
+	while (*s && strFindFirstOfChar(set, *s))
+		++s;
 	if ('\0' == *s)
 		return (NULL);
 	return ((char *)s);
