@@ -34,25 +34,25 @@ char	*strSetN(char *s, int c, size_t n);
  * @brief Returns a pointer to the first occurrence of @a c in @a s.
  * @return A pointer to the occurrence, or NULL if @a c is not found.
  */
-char	*strFindChar(const char *s, char c);
+char	*strFindFirstOfChar(const char *s, char c);
 
 /**
  * @brief Returns a pointer to the last occurrence of @a c in @a s.
  * @return A pointer to the occurrence, or NULL if @a c is not found.
  */
-char	*strFindCharRev(const char *s, char c);
+char	*strFindLastOfChar(const char *s, char c);
 
 /**
  * @brief Returns a pointer to the first occurrence of any character from @a set in @a s.
  * @return A pointer to the occurrence, or NULL if no character is found.
  */
-char	*strFindChars(const char *s, const char *set);
+char	*strFindFirstOf(const char *s, const char *set);
 
 /**
  * @brief Returns a pointer to the last occurrence of any character from @a set in @a s.
  * @return A pointer to the occurrence, or NULL if no character is found.
  */
-char	*strFindCharsRev(const char *s, const char *set);
+char	*strFindLastOf(const char *s, const char *set);
 
 /**
  * @brief Returns a pointer to the first occurrence of the substring @a needle in @a s.
@@ -255,7 +255,7 @@ char	*strSetN(char *s, int c, size_t n)
 	return (s);
 }
 
-char	*strFindChar(const char *s, char c)
+char	*strFindFirstOfChar(const char *s, char c)
 {
 	if (NULL == s)
 		return (NULL);
@@ -266,7 +266,7 @@ char	*strFindChar(const char *s, char c)
 	return ((char *)s);
 }
 
-char	*strFindCharRev(const char *s, char c)
+char	*strFindLastOfChar(const char *s, char c)
 {
 	char	*last = NULL;
 
@@ -283,13 +283,13 @@ char	*strFindCharRev(const char *s, char c)
 	return (last);
 }
 
-char	*strFindChars(const char *s, const char *set)
+char	*strFindFirstOf(const char *s, const char *set)
 {
 	if (NULL == s || NULL == set)
 		return (NULL);
 	while (*s)
 	{
-		if (strFindChar(set, *s))
+		if (strFindFirstOfChar(set, *s))
 			break;
 		++s;
 	}
@@ -298,7 +298,7 @@ char	*strFindChars(const char *s, const char *set)
 	return ((char *)s);
 }
 
-char	*strFindCharsRev(const char *s, const char *set)
+char	*strFindLastOf(const char *s, const char *set)
 {
 	char	*last = NULL;
 
@@ -306,7 +306,7 @@ char	*strFindCharsRev(const char *s, const char *set)
 		return (NULL);
 	while (*s)
 	{
-		if (strFindChar(set, *s))
+		if (strFindFirstOfChar(set, *s))
 			last = (char *)s;
 		++s;
 	}
@@ -321,12 +321,12 @@ char	*strFind(const char *s, const char *needle)
 	if (NULL == s || NULL == needle)
 		return (NULL);
 	needle_size = strLength(needle);
-	occ = strFindChar(s, *needle);
+	occ = strFindFirstOfChar(s, *needle);
 	while (occ)
 	{
 		if (0 == strCompareN(occ, needle, needle_size))
 			return (occ);
-		occ = strFindChar(occ + 1, *needle);
+		occ = strFindFirstOfChar(occ + 1, *needle);
 	}
 	return (NULL);
 }
@@ -339,12 +339,12 @@ char	*strFindN(const char *s, const char *needle, size_t n)
 	if (NULL == s || NULL == needle || 0 == n)
 		return (NULL);
 	needle_size = strLengthN(needle, n);
-	occ = strFindChar(s, *needle);
+	occ = strFindFirstOfChar(s, *needle);
 	while (occ)
 	{
 		if (0 == strCompareN(occ, needle, needle_size))
 			return (occ);
-		occ = strFindChar(occ + 1, *needle);
+		occ = strFindFirstOfChar(occ + 1, *needle);
 		if (occ - s + needle_size > n)
 			return (NULL);
 	}
@@ -601,10 +601,10 @@ char	**strSplit(const char *str, const char *set)
 	while (counter < wc)
 	{
 		start_index = end_index;
-		while (*(str + start_index) && strFindChar(set, *(str + start_index)))
+		while (*(str + start_index) && strFindFirstOfChar(set, *(str + start_index)))
 			start_index++;
 		end_index = start_index;
-		while (*(str + end_index) && !strFindChar(set, *(str + end_index)))
+		while (*(str + end_index) && !strFindFirstOfChar(set, *(str + end_index)))
 			end_index++;
 		*(arr + counter) = strDupN(str + start_index, end_index - start_index);
 		if (NULL == *(arr + counter))
@@ -626,7 +626,7 @@ char	*strTrimLeft(const char *s, const char *set)
 		return (NULL);
 	if (NULL == set)
 		return (strDup(s));
-	while (*s && strFindChar(set, *s))
+	while (*s && strFindFirstOfChar(set, *s))
 		++s;
 	if ('\0' == *s)
 		return (strDup(s));
@@ -646,11 +646,11 @@ char	*strTrimRight(const char *s, const char *set)
 		return (NULL);
 	if (NULL == set)
 		return (strDup(s));
-	if (1 == strLength(s) && strFindChar(set, *s))
+	if (1 == strLength(s) && strFindFirstOfChar(set, *s))
 		return (strDup(""));
 	while (*(s + index))
 	{
-		if (!strFindChar(set, *(s + index)))
+		if (!strFindFirstOfChar(set, *(s + index)))
 			last = index;
 		++index;
 	}
@@ -804,7 +804,7 @@ size_t	strCountWords(const char *s, const char *set)
 	is_word = 1;
 	while (*s)
 	{
-		if (strFindChar(set, *s))
+		if (strFindFirstOfChar(set, *s))
 			is_word = 1;
 		else if (is_word)
 		{
