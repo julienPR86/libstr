@@ -19,13 +19,13 @@
 void	*strMemSet(void *s, int c, size_t n);
 
 /**
- * @brief Returns a pointer to the first occurrence of @a c in @a s within the first @a n bytes.
+ * @brief Returns a pointer to the first occurrence of @a c within the first @a n bytes of @a s.
  * @return A pointer to the occurrence, or NULL if @a c is not found.
  */
 void	*strMemFindFirstByte(const void *s, int c, size_t n);
 
 /**
- * @brief Returns a pointer to the last occurrence of @a c in @a s within the first @a n bytes.
+ * @brief Returns a pointer to the last occurrence of @a c within the first @a n bytes of @a s.
  * @return A pointer to the occurrence, or NULL if @a c is not found.
  */
 void	*strMemFindLastByte(const void *s, int c, size_t n);
