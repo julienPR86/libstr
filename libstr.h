@@ -61,6 +61,12 @@ char	*strFindFirstNotOf(const char *s, const char *set);
 char	*strFindLastOf(const char *s, const char *set);
 
 /**
+ * @brief Returns a pointer to the last occurrence of any character from @a s that doesn't appear in @a set.
+ * @return A pointer to the occurrence, or NULL if no character is found.
+ */
+char	*strFindLastNotOf(const char *s, const char *set);
+
+/**
  * @brief Returns a pointer to the first occurrence of the substring @a needle in @a s.
  * @return A pointer to the occurrence, or NULL if @a needle is not found.
  */
@@ -320,6 +326,21 @@ char	*strFindLastOf(const char *s, const char *set)
 	while (*s)
 	{
 		if (strFindFirstOfChar(set, *s))
+			last = (char *)s;
+		++s;
+	}
+	return (last);
+}
+
+char	*strFindLastNotOf(const char *s, const char *set)
+{
+	char	*last = NULL;
+
+	if (NULL == s)
+		return (NULL);
+	while (*s)
+	{
+		if (!strFindFirstOfChar(set, *s))
 			last = (char *)s;
 		++s;
 	}
