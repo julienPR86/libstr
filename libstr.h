@@ -12,7 +12,6 @@
 # include <stdlib.h>
 # include <ctype.h>
 # include <limits.h>
-# include <stdbool.h>
 
 /**
  * @brief Returns the length of @a s.
@@ -842,12 +841,11 @@ double	strToDouble(const char *s)
 
 size_t	strCountWords(const char *s, const char *set)
 {
-	size_t	count = 0;
-	bool	is_word;
+	size_t		count = 0;
+	short int	is_word = 1;
 
 	if (NULL == s || NULL == set)
 		return (0);
-	is_word = 1;
 	while (*s)
 	{
 		if (strFindFirstOfChar(set, *s))
