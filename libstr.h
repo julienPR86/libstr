@@ -328,8 +328,10 @@ void	*strMemCopy(void *dst, const void *src, size_t n)
 {
 	size_t	index = 0;
 
-	if (NULL == dst || NULL == src)
+	if (NULL == dst)
 		return (NULL);
+	if (NULL == src || 0 == n)
+		return (dst);
 	while (index < n)
 	{
 		*((char *)dst + index) = *((char *)src + index);
