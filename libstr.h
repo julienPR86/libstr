@@ -293,12 +293,8 @@ char	*strFindFirstOf(const char *s, const char *set)
 {
 	if (NULL == s || NULL == set)
 		return (NULL);
-	while (*s)
-	{
-		if (strFindFirstOfChar(set, *s))
-			break;
+	while (*s && !strFindFirstOfChar(set, *s))
 		++s;
-	}
 	if ('\0' == *s)
 		return (NULL);
 	return ((char *)s);
