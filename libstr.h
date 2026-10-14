@@ -12,6 +12,7 @@
 # include <stdlib.h>
 # include <ctype.h>
 # include <limits.h>
+# include <math.h>
 
 /**
  * @brief Sets the firsts @a n bytes from @a s to @a c.
@@ -1028,9 +1029,9 @@ unsigned long	strToUnsignedLong(const char *s)
 
 double	strToDouble(const char *s)
 {
-	double	f = 0.0;
+	double	num = 0.0;
 	double	precision = 10.0;
-	int		sign = 1;
+	int		negative = 0;
 
 	if (NULL == s)
 		return (0);
@@ -1039,23 +1040,57 @@ double	strToDouble(const char *s)
 	if ('-' == *s || '+' == *s)
 	{
 		if ('-' == *s)
-			sign = -1;
+			negative = 1;
 		++s;
+	}
+	if (!isdigit(*s))
+	{
+		if ('i' == tolower(*s)
+			&& 'n' == tolower(*(s+1))
+			&& 'f' == tolower(*(s+2)))
+		{
+			s += 3;
+			if ('i' == tolower(*s) 
+				&& 'n' == tolower(*(s+1))
+				&& 'i' == tolower(*(s+2))
+				&& 't' == tolower(*(s+3))
+				&& 'y' == tolower(*(s+4)))
+				s += 5;
+			num = HUGE_VAL;
+		}
+		else if ('n' == tolower(*s)
+				&& 'a' == tolower(*(s+1))
+				&& 'n' == tolower(*(s+2)))
+		{
+			s += 3;
+			if ('(' == *s)
+			{
+				const char	*p = s + 1;
+				while (isdigit(*p))
+					p++;
+				if (')' == *p)
+					s = p + 1;
+			}
+			num = NAN;
+		}
+		else
+			return (0.0);
+		return (negative ? -num : num);
 	}
 	while (isdigit(*s))
 	{
-		f = f * 10 + *s - '0';
+		num = num * 10 + *s - '0';
 		++s;
 	}
 	if ('.' == *s)
 		++s;
 	while (isdigit(*s))
 	{
-		f += (*s - '0') / precision;
+		num += (*s - '0') / precision;
 		precision *= 10;
 		++s;
 	}
-	return (f * sign);
+	return (negative ? -num : num);
 }
 
 long double	strToLongDouble(const char *s)
