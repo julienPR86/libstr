@@ -1055,6 +1055,8 @@ double	strToDouble(const char *s)
 	}
 	while (isdigit(*s))
 	{
+		if (num > (DBL_MAX - (*s - '0')) * 0.1)
+			return (negative ? -HUGE_VAL : HUGE_VAL);
 		num = num * 10 + *s - '0';
 		++s;
 	}
