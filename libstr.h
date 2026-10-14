@@ -247,6 +247,12 @@ char	*strReplace(char **s, const char *old_s, const char *new_s);
 int		strToInt(const char *s);
 
 /**
+ * @brief Converts the initial portion of @a s to an unsigned integer.
+ * @return The converted unsigned integer on success, 0 if the conversion is impossible.
+ */
+unsigned	strToUnsigned(const char *s);
+
+/**
  * @brief Converts the initial portion of @a s to a long integer.
  * @return The converted long integer on success, 0 if the conversion is impossible.
  */
@@ -931,6 +937,27 @@ int	strToInt(const char *s)
 	while (isdigit(*s))
 	{
 		if (n * sign > (INT_MAX - (*s - '0')) / 10 || n * sign < (INT_MIN + *s - '0') / 10)
+			return (0);
+		n = n * 10 + *s - '0';
+		++s;
+	}
+	return (n * sign);
+}
+
+unsigned int	strToUnsigned(const char *s)
+{
+	unsigned int	n = 0;
+	int				sign = 1;
+
+	if (NULL == s)
+		return (0);
+	while (isspace(*s))
+		++s;
+	if ('+' == *s)
+		++s;
+	while (isdigit(*s))
+	{
+		if (n * sign > (UINT_MAX - (*s - '0')) / 10)
 			return (0);
 		n = n * 10 + *s - '0';
 		++s;
