@@ -277,6 +277,16 @@ double	strToDouble(const char *s);
 long double	strToLongDouble(const char *s);
 
 /**
+ * @brief Converts all lower case characters from @a s to upper case characters.
+ */
+char	*strToUpper(char *s);
+
+/**
+ * @brief Converts all upper case characters from @a s to lower case characters.
+ */
+char	*strToLower(char *s);
+
+/**
  * @brief Returns the number of words in @a s.
  *
  * A word is separated by one or more characters from @a set.
@@ -893,7 +903,7 @@ char	*strSub(const char *s, size_t start, size_t end)
 
 char	*strReplace(char **s, const char *old_s, const char *new_s)
 {
-	char	*__s = *s;
+	char	*sptr = *s;
 	char	*find = NULL;
 	char	*replaced = NULL;
 
@@ -901,9 +911,9 @@ char	*strReplace(char **s, const char *old_s, const char *new_s)
 		return (NULL);
 	if (NULL == old_s)
 		return (*s);
-	while ((find = strFind(__s, old_s)))
+	while ((find = strFind(sptr, old_s)))
 	{
-		if (NULL == strAppendN(&replaced, __s, find - __s) && NULL != replaced)
+		if (NULL == strAppendN(&replaced, sptr, find - sptr) && NULL != replaced)
 		{
 			free(replaced);
 			return (NULL);
@@ -913,9 +923,9 @@ char	*strReplace(char **s, const char *old_s, const char *new_s)
 			free(replaced);
 			return (NULL);
 		}
-		__s = find + strLength(old_s);
+		sptr = find + strLength(old_s);
 	}
-	if (NULL == strAppend(&replaced, __s))
+	if (NULL == strAppend(&replaced, sptr))
 	{
 		free(replaced);
 		return (NULL);
@@ -1078,6 +1088,30 @@ long double	strToLongDouble(const char *s)
 		++s;
 	}
 	return (f * sign);
+}
+
+char	*strToUpper(char *s)
+{
+	size_t	index = 0;
+
+	while (*(s + index))
+	{
+		*(s + index) = toupper(*(s + index));
+		++index;
+	}
+	return (s);
+}
+
+char	*strToLower(char *s)
+{
+	size_t	index = 0;
+
+	while (*(s + index))
+	{
+		*(s + index) = tolower(*(s + index));
+		++index;
+	}
+	return (s);
 }
 
 size_t	strCountWords(const char *s, const char *set)
