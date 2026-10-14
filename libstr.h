@@ -273,12 +273,6 @@ unsigned long	strToUnsignedLong(const char *s);
 double	strToDouble(const char *s);
 
 /**
- * @brief Converts the initial portion of @a s to a long double.
- * @return The converted long double on success, 0 if the conversion is impossible.
- */
-long double	strToLongDouble(const char *s);
-
-/**
  * @brief Converts all lower case characters from @a s to upper case characters.
  */
 char	*strToUpper(char *s);
@@ -1084,38 +1078,6 @@ double	strToDouble(const char *s)
 		}
 	}
 	return (negative ? -num : num);
-}
-
-long double	strToLongDouble(const char *s)
-{
-	long double	f = 0.0;
-	double		precision = 10;
-	int			sign = 1;
-
-	if (NULL == s)
-		return (0);
-	while (isspace(*s))
-		++s;
-	if ('-' == *s || '+' == *s)
-	{
-		if ('-' == *s)
-			sign = -1;
-		++s;
-	}
-	while (isdigit(*s))
-	{
-		f = f * 10 + *s - '0';
-		++s;
-	}
-	if ('.' == *s)
-		++s;
-	while (isdigit(*s))
-	{
-		f += (*s - '0') / precision;
-		precision *= 10;
-		++s;
-	}
-	return (f * sign);
 }
 
 char	*strToUpper(char *s)
