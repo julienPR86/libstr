@@ -1048,31 +1048,11 @@ double	strToDouble(const char *s)
 		if ('i' == tolower(*s)
 			&& 'n' == tolower(*(s+1))
 			&& 'f' == tolower(*(s+2)))
-		{
-			s += 3;
-			if ('i' == tolower(*s) 
-				&& 'n' == tolower(*(s+1))
-				&& 'i' == tolower(*(s+2))
-				&& 't' == tolower(*(s+3))
-				&& 'y' == tolower(*(s+4)))
-				s += 5;
 			num = HUGE_VAL;
-		}
 		else if ('n' == tolower(*s)
 				&& 'a' == tolower(*(s+1))
 				&& 'n' == tolower(*(s+2)))
-		{
-			s += 3;
-			if ('(' == *s)
-			{
-				const char	*p = s + 1;
-				while (isdigit(*p))
-					p++;
-				if (')' == *p)
-					s = p + 1;
-			}
 			num = NAN;
-		}
 		else
 			return (0.0);
 		return (negative ? -num : num);
