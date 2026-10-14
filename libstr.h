@@ -234,6 +234,13 @@ char	*strTrimRightUntil(const char *s, int (*isdelimFn)(int c));
 char	*strSub(const char *s, size_t start, size_t end);
 
 /**
+ * @brief Replaces every occurence of @a old_s with @a new_s in @a s.
+ * @param s A pointer to the allocated string to modify.
+ * @return A pointer to the resulting string, or NULL on failure.
+ */
+char	*strReplace(char **s, const char *old_s, const char *new_s);
+
+/**
  * @brief Converts the initial portion of @a s to an integer.
  * @return The converted integer on success, 0 if the conversion is impossible.
  */
@@ -870,6 +877,40 @@ char	*strSub(const char *s, size_t start, size_t end)
 		return (NULL);
 	strCopyN(sub, s + start, end - start + 1);
 	return (sub);
+}
+
+char	*strReplace(char **s, const char *old_s, const char *new_s)
+{
+	char	*__s = *s;
+	char	*find = NULL;
+	char	*replaced = NULL;
+
+	if (NULL == s || NULL == *s)
+		return (NULL);
+	if (NULL == old_s)
+		return (*s);
+	while ((find = strFind(__s, old_s)))
+	{
+		if (NULL == strAppendN(&replaced, __s, find - __s) && NULL != replaced)
+		{
+			free(replaced);
+			return (NULL);
+		}
+		if (NULL == strAppend(&replaced, new_s))
+		{
+			free(replaced);
+			return (NULL);
+		}
+		__s = find + strLength(old_s);
+	}
+	if (NULL == strAppend(&replaced, __s))
+	{
+		free(replaced);
+		return (NULL);
+	}
+	free(*s);
+	*s = replaced;
+	return (*s);
 }
 
 int	strToInt(const char *s)
