@@ -12,6 +12,7 @@
 # include <stdlib.h>
 # include <ctype.h>
 # include <limits.h>
+# include <float.h>
 # include <math.h>
 
 /**
@@ -1031,6 +1032,7 @@ double	strToDouble(const char *s)
 {
 	double	num = 0.0;
 	double	precision = 10.0;
+	int		exponent = 0;
 	int		negative = 0;
 
 	if (NULL == s)
@@ -1069,6 +1071,17 @@ double	strToDouble(const char *s)
 		num += (*s - '0') / precision;
 		precision *= 10;
 		++s;
+	}
+	if ('e' == tolower(*s))
+	{
+		exponent = strToInt(s + 1);
+		while (exponent)
+		{
+			if (exponent > 0 ? num > DBL_MAX * 0.1 : num < -DBL_MAX * 0.1)
+				return (exponent > 0 ? HUGE_VAL : -HUGE_VAL);
+			num = num * (exponent > 0 ? 10 : 0.1);
+			exponent += (exponent > 0 ? -1 : 1);
+		}
 	}
 	return (negative ? -num : num);
 }
