@@ -259,6 +259,12 @@ unsigned	strToUnsigned(const char *s);
 long	strToLong(const char *s);
 
 /**
+ * @brief Converts the initial portion of @a s to an unsigned long integer.
+ * @return The converted unsigned long integer on success, 0 if the conversion is impossible.
+ */
+unsigned long	strToUnsignedLong(const char *s);
+
+/**
  * @brief Converts the initial portion of @a s to a double.
  * @return The converted double on success, 0 if the conversion is impossible.
  */
@@ -988,6 +994,26 @@ long	strToLong(const char *s)
 		++s;
 	}
 	return (n * sign);
+}
+
+unsigned long	strToUnsignedLong(const char *s)
+{
+	unsigned long	n = 0;
+
+	if (NULL == s)
+		return (0);
+	while (isspace(*s))
+		++s;
+	if ('+' == *s)
+		++s;
+	while (isdigit(*s))
+	{
+		if (n > (ULONG_MAX - (*s - '0')) / 10)
+			return (0);
+		n = n * 10 + *s - '0';
+		++s;
+	}
+	return (n);
 }
 
 double	strToDouble(const char *s)
