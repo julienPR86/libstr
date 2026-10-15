@@ -825,11 +825,7 @@ char	*strTrimLeft(const char *s, const char *set)
 		return (strDup(s));
 	while (*s && strFindFirstOfChar(set, *s))
 		++s;
-	if ('\0' == *s)
-		return (strDup(s));
 	trimmed = strDup(s);
-	if (NULL == trimmed)
-		return (NULL);
 	return (trimmed);
 }
 
