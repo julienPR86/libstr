@@ -221,13 +221,13 @@ char	*strTrimRight(const char *s, const char *set);
  * @brief Removes leading characters from @a s until @a isdelimFn returns a non-zero value.
  * @return The allocated trimmed string, or NULL on failure.
  */
-char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c));
+char	*strTrimLeftUntilIsDelim(const char *s, int (*isdelimFn)(int c));
 
 /**
  * @brief Removes trailing characters from @a s until @a isdelimFn returns a non-zero value.
  * @return The allocated trimmed string, or NULL on failure.
  */
-char	*strTrimRightUntil(const char *s, int (*isdelimFn)(int c));
+char	*strTrimRightUntilIsDelim(const char *s, int (*isdelimFn)(int c));
 
 /**
  * @brief Returns the substring of @a s from @a start to @a end, inclusive.
@@ -845,7 +845,7 @@ char	*strTrimRight(const char *s, const char *set)
 	return (trimmed);
 }
 
-char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c))
+char	*strTrimLeftUntilIsDelim(const char *s, int (*isdelimFn)(int c))
 {
 	char	*trimmed;
 
@@ -859,7 +859,7 @@ char	*strTrimLeftUntil(const char *s, int (*isdelimFn)(int c))
 	return (trimmed);
 }
 
-char	*strTrimRightUntil(const char *s, int (*isdelimFn)(int c))
+char	*strTrimRightUntilIsDelim(const char *s, int (*isdelimFn)(int c))
 {
 	size_t	index = 0;
 	size_t	last = 0;
