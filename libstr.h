@@ -218,6 +218,18 @@ char	*strTrimLeft(const char *s, const char *set);
 char	*strTrimRight(const char *s, const char *set);
 
 /**
+ * @brief Removes leading characters from @a s until any characters from @a set is found.
+ * @return The allocated trimmed string, or NULL on failure.
+ */
+char	*strTrimLeftUntil(const char *s, const char *set);
+
+/**
+ * @brief Removes trailing characters from @a s until any characters from @a set is found.
+ * @return The allocated trimmed string, or NULL on failure.
+ */
+char	*strTrimRightUntil(const char *s, const char *set);
+
+/**
  * @brief Removes leading characters from @a s until @a isdelimFn returns a non-zero value.
  * @return The allocated trimmed string, or NULL on failure.
  */
@@ -839,6 +851,47 @@ char	*strTrimRight(const char *s, const char *set)
 			last = index;
 		++index;
 	}
+	trimmed = strDupN(s, last + 1);
+	if (NULL == trimmed)
+		return (NULL);
+	return (trimmed);
+}
+
+char	*strTrimLeftUntil(const char *s, const char *set)
+{
+	size_t	index = 0;
+	char	*trimmed;
+
+	if (NULL == s)
+		return (NULL);
+	if (NULL == set)
+		return (strDup(s));
+	while (*(s + index) && !strFindFirstOfChar(set, *(s + index)))
+		++index;
+	if ('\0' == *(s + index))
+		return (strDup(s));
+	trimmed = strDup(s + index);
+	return (trimmed);
+}
+
+char	*strTrimRightUntil(const char *s, const char *set)
+{
+	size_t	index = 0;
+	size_t	last = 0;
+	char	*trimmed;
+
+	if (NULL == s)
+		return (NULL);
+	if (NULL == set)
+		return (strDup(s));
+	while (*(s + index))
+	{
+		if (strFindFirstOfChar(set, *(s + index)))
+			last = index;
+		++index;
+	}
+	if (0 == last && !strFindFirstOfChar(set, *s))
+		return (strDup(s));
 	trimmed = strDupN(s, last + 1);
 	if (NULL == trimmed)
 		return (NULL);
