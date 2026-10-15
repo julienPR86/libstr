@@ -67,7 +67,7 @@ size_t	strLengthN(const char *s, size_t n);
 /**
  * @brief Returns a pointer to the end of @a s, the terminating null character.
  */
-char	*strEnd(const char *s);
+const char	*strEnd(const char *s);
 
 /**
  * @brief Returns a pointer to the first occurrence of @a c in @a s.
@@ -423,11 +423,11 @@ size_t	strLengthN(const char *s, size_t n)
 	return (size);
 }
 
-char	*strEnd(const char *s)
+const char	*strEnd(const char *s)
 {
 	if (NULL == s)
 		return (NULL);
-	return ((char *)s + strLength(s));
+	return (s + strLength(s));
 }
 
 char	*strFindFirstOfChar(const char *s, char c)
@@ -831,8 +831,8 @@ char	*strTrimLeft(const char *s, const char *set)
 
 char	*strTrimRight(const char *s, const char *set)
 {
-	char	*end = strEnd(s);
-	char	*trimmed;
+	const char	*end = strEnd(s);
+	char		*trimmed;
 
 	if (NULL == s)
 		return (NULL);
@@ -860,8 +860,8 @@ char	*strTrimLeftUntil(const char *s, const char *set)
 
 char	*strTrimRightUntil(const char *s, const char *set)
 {
-	char	*end = strEnd(s) - 1;
-	char	*trimmed;
+	const char	*end = strEnd(s) - 1;
+	char		*trimmed;
 
 	if (NULL == s)
 		return (NULL);
@@ -889,8 +889,8 @@ char	*strTrimLeftUntilIsDelim(const char *s, int (*isdelimFn)(int c))
 
 char	*strTrimRightUntilIsDelim(const char *s, int (*isdelimFn)(int c))
 {
-	char	*end = strEnd(s) - 1;
-	char	*trimmed;
+	const char	*end = strEnd(s) - 1;
+	char		*trimmed;
 
 	if (NULL == s)
 		return (NULL);
