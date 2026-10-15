@@ -887,15 +887,18 @@ char	*strTrimRightUntil(const char *s, const char *set)
 
 char	*strTrimLeftUntilIsDelim(const char *s, int (*isdelimFn)(int c))
 {
+	size_t	index = 0;
 	char	*trimmed;
 
 	if (NULL == s)
 		return (NULL);
 	if (NULL == isdelimFn)
 		return (strDup(s));
-	while (*s && !isdelimFn(*s))
-		++s;
-	trimmed = strDup(s);
+	while (*(s + index) && !isdelimFn(*(s + index)))
+		++index;
+	if ('\0' == *(s + index))
+		return (strDup(s));
+	trimmed = strDup(s + index);
 	return (trimmed);
 }
 
