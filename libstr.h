@@ -846,18 +846,15 @@ char	*strTrimRight(const char *s, const char *set)
 
 char	*strTrimLeftUntil(const char *s, const char *set)
 {
-	size_t	index = 0;
 	char	*trimmed;
 
 	if (NULL == s)
 		return (NULL);
 	if (NULL == set)
 		return (strDup(s));
-	while (*(s + index) && !strFindFirstOfChar(set, *(s + index)))
-		++index;
-	if ('\0' == *(s + index))
-		return (strDup(s));
-	trimmed = strDup(s + index);
+	while (*s && !strFindFirstOfChar(set, *s))
+		++s;
+	trimmed = strDup(s);
 	return (trimmed);
 }
 
