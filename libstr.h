@@ -282,7 +282,7 @@ unsigned long	strToUnsignedLong(const char *s);
  * @brief Converts the initial portion of @a s to a double.
  * @return The converted double on success, 0 if the conversion is impossible.
  */
-double	strToDouble(const char *s);
+double	strToDouble(const char *s, char **endptr);
 
 /**
  * @brief Converts all lower case characters from @a s to upper case characters.
@@ -1041,7 +1041,7 @@ unsigned long	strToUnsignedLong(const char *s)
 	return (n);
 }
 
-double	strToDouble(const char *s)
+double	strToDouble(const char *s, char **endptr)
 {
 	double	num = 0.0;
 	double	precision = 10.0;
@@ -1058,24 +1058,14 @@ double	strToDouble(const char *s)
 			negative = 1;
 		++s;
 	}
-	if (!isdigit(*s))
-	{
-		if ('i' == tolower(*s)
-			&& 'n' == tolower(*(s+1))
-			&& 'f' == tolower(*(s+2)))
-			num = HUGE_VAL;
-		else if ('n' == tolower(*s)
-				&& 'a' == tolower(*(s+1))
-				&& 'n' == tolower(*(s+2)))
-			num = NAN;
-		else
-			return (0.0);
-		return (negative ? -num : num);
-	}
 	while (isdigit(*s))
 	{
 		if (num > (DBL_MAX - (*s - '0')) * 0.1)
+		{
+			if (endptr)
+				*endptr = (char *)s;
 			return (negative ? -HUGE_VAL : HUGE_VAL);
+		}
 		num = num * 10 + *s - '0';
 		++s;
 	}
@@ -1089,15 +1079,60 @@ double	strToDouble(const char *s)
 	}
 	if ('e' == tolower(*s))
 	{
-		exponent = strToInt(s + 1);
+		const char	*exp = ++s;
+		int			exp_negative = 0;
+
+		if ('-' == *s || '+' == *s)
+		{
+			if ('-' == *s)
+				exp_negative = 1;
+			++s;
+		}
+		while (isdigit(*s))
+			++s;
+		exponent = strToInt(exp);
+		if (exponent > 308 || exponent < -308 || (0 == exponent && *exp != '0'))
+		{
+			if (endptr)
+				*endptr = (char *)s;
+			return (exp_negative ? (negative ? -0.0 : 0.0) : (negative ? -HUGE_VAL : HUGE_VAL));
+		}
 		while (exponent)
 		{
-			if (exponent > 0 ? num > DBL_MAX * 0.1 : num < -DBL_MAX * 0.1)
-				return (exponent > 0 ? HUGE_VAL : -HUGE_VAL);
 			num = num * (exponent > 0 ? 10 : 0.1);
 			exponent += (exponent > 0 ? -1 : 1);
 		}
 	}
+	if ('i' == tolower(*s)
+		&& 'n' == tolower(*(s+1))
+		&& 'f' == tolower(*(s+2)))
+	{
+		s += 3;
+		if ('i' == tolower(*s)
+			&& 'n' == tolower(*(s+1))
+			&& 'i' == tolower(*(s+2))
+			&& 't' == tolower(*(s+3))
+			&& 'y' == tolower(*(s+4)))
+			s += 5;
+		num = HUGE_VAL;
+	}
+	else if ('n' == tolower(*s)
+			&& 'a' == tolower(*(s+1))
+			&& 'n' == tolower(*(s+2)))
+	{
+		s += 3;
+		if (*s == '(')
+		{
+			const char *tmp = s + 1;
+			while (isalnum(*tmp))
+				++tmp;
+			if (*tmp == ')')
+				s = tmp + 1;
+		}
+		num = NAN;
+	}
+	if (endptr)
+		*endptr = (char *)s;
 	return (negative ? -num : num);
 }
 
