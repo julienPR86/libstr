@@ -1094,22 +1094,28 @@ double	strToDouble(const char *s, char **endptr)
 	if ('e' == tolower(*s))
 	{
 		const char	*exp = ++s;
-		bool		exp_negative = false;
+		bool		neg_exp = false;
 
 		if ('-' == *s || '+' == *s)
 		{
 			if ('-' == *s)
-				exp_negative = true;
+				neg_exp = true;
 			++s;
 		}
 		while (isdigit(*s))
 			++s;
 		exponent = strToInt(exp);
-		if (exponent > 308 || exponent < -308 || (0 == exponent && *exp != '0'))
+		if (0 == exponent)
+		{
+			if (endptr)
+				*endptr = (char *)exp - 1;
+			return (negative ? -num : num);
+		}
+		if (exponent > 308 || exponent < -308)
 		{
 			if (endptr)
 				*endptr = (char *)s;
-			return (exp_negative ? (negative ? -0.0 : 0.0) : (negative ? -HUGE_VAL : HUGE_VAL));
+			return (neg_exp ? (negative ? -0.0 : 0.0) : (negative ? -HUGE_VAL : HUGE_VAL));
 		}
 		while (exponent)
 		{
@@ -1138,6 +1144,7 @@ double	strToDouble(const char *s, char **endptr)
 		if (*s == '(')
 		{
 			const char *tmp = s + 1;
+
 			while (isalnum(*tmp))
 				++tmp;
 			if (*tmp == ')')
