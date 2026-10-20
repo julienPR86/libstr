@@ -967,8 +967,10 @@ int	strToInt(const char *s)
 	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (INT_MAX - (*s - '0')) / 10 || n * sign < (INT_MIN + *s - '0') / 10)
-			return (0);
+		if (n * sign > (INT_MAX - (*s - '0')) / 10)
+			return (INT_MAX);
+		if (n * sign < (INT_MIN + *s - '0') / 10)
+			return (INT_MIN);
 		n = n * 10 + *s - '0';
 		++s;
 	}
@@ -984,12 +986,16 @@ unsigned int	strToUnsigned(const char *s)
 		return (0);
 	while (isspace(*s))
 		++s;
-	if ('+' == *s)
+	if ('-' == *s || '+' == *s)
+	{
+		if ('-' == *s)
+			sign = -1;
 		++s;
+	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (UINT_MAX - (*s - '0')) / 10)
-			return (0);
+		if (n > (UINT_MAX - (*s - '0')) / 10)
+			return (UINT_MAX);
 		n = n * 10 + *s - '0';
 		++s;
 	}
@@ -1013,8 +1019,10 @@ long	strToLong(const char *s)
 	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (LONG_MAX - (*s - '0')) / 10 || n * sign < (LONG_MIN + *s - '0') / 10)
-			return (0);
+		if (n * sign > (LONG_MAX - (*s - '0')) / 10)
+			return (LONG_MAX);
+		if (n * sign < (LONG_MIN + *s - '0') / 10)
+			return (LONG_MIN);
 		n = n * 10 + *s - '0';
 		++s;
 	}
@@ -1024,21 +1032,26 @@ long	strToLong(const char *s)
 unsigned long	strToUnsignedLong(const char *s)
 {
 	unsigned long	n = 0;
+	int				sign = 1;
 
 	if (NULL == s)
 		return (0);
 	while (isspace(*s))
 		++s;
-	if ('+' == *s)
+	if ('-' == *s || '+' == *s)
+	{
+		if ('-' == *s)
+			sign = -1;
 		++s;
+	}
 	while (isdigit(*s))
 	{
 		if (n > (ULONG_MAX - (*s - '0')) / 10)
-			return (0);
+			return (ULONG_MAX);
 		n = n * 10 + *s - '0';
 		++s;
 	}
-	return (n);
+	return (n * sign);
 }
 
 double	strToDouble(const char *s, char **endptr)
