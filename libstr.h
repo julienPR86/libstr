@@ -11,6 +11,7 @@
 
 # include <stdlib.h>
 # include <ctype.h>
+# include <stdbool.h>
 # include <limits.h>
 # include <float.h>
 # include <math.h>
@@ -952,8 +953,8 @@ char	*strReplace(char **s, const char *old_s, const char *new_s)
 
 int	strToInt(const char *s)
 {
-	int	n = 0;
-	int	sign = 1;
+	int		n = 0;
+	bool	negative = false;
 
 	if (NULL == s)
 		return (0);
@@ -962,25 +963,25 @@ int	strToInt(const char *s)
 	if ('-' == *s || '+' == *s)
 	{
 		if ('-' == *s)
-			sign = -1;
+			negative = true;
 		++s;
 	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (INT_MAX - (*s - '0')) / 10)
+		if ((negative ? -n : n) > (INT_MAX - (*s - '0')) / 10)
 			return (INT_MAX);
-		if (n * sign < (INT_MIN + *s - '0') / 10)
+		if ((negative ? -n : n) < (INT_MIN + *s - '0') / 10)
 			return (INT_MIN);
 		n = n * 10 + *s - '0';
 		++s;
 	}
-	return (n * sign);
+	return (negative ? -n : n);
 }
 
 unsigned int	strToUnsigned(const char *s)
 {
 	unsigned int	n = 0;
-	int				sign = 1;
+	bool			negative = false;
 
 	if (NULL == s)
 		return (0);
@@ -989,7 +990,7 @@ unsigned int	strToUnsigned(const char *s)
 	if ('-' == *s || '+' == *s)
 	{
 		if ('-' == *s)
-			sign = -1;
+			negative = true;
 		++s;
 	}
 	while (isdigit(*s))
@@ -999,13 +1000,13 @@ unsigned int	strToUnsigned(const char *s)
 		n = n * 10 + *s - '0';
 		++s;
 	}
-	return (n * sign);
+	return (negative ? -n : n);
 }
 
 long	strToLong(const char *s)
 {
 	long	n = 0;
-	int		sign = 1;
+	bool	negative = false;
 
 	if (NULL == s)
 		return (0);
@@ -1014,25 +1015,25 @@ long	strToLong(const char *s)
 	if ('-' == *s || '+' == *s)
 	{
 		if ('-' == *s)
-			sign = -1;
+			negative = true;
 		++s;
 	}
 	while (isdigit(*s))
 	{
-		if (n * sign > (LONG_MAX - (*s - '0')) / 10)
+		if ((negative ? -n : n) > (LONG_MAX - (*s - '0')) / 10)
 			return (LONG_MAX);
-		if (n * sign < (LONG_MIN + *s - '0') / 10)
+		if ((negative ? -n : n) < (LONG_MIN + *s - '0') / 10)
 			return (LONG_MIN);
 		n = n * 10 + *s - '0';
 		++s;
 	}
-	return (n * sign);
+	return (negative ? -n : n);
 }
 
 unsigned long	strToUnsignedLong(const char *s)
 {
 	unsigned long	n = 0;
-	int				sign = 1;
+	bool			negative = false;
 
 	if (NULL == s)
 		return (0);
@@ -1041,7 +1042,7 @@ unsigned long	strToUnsignedLong(const char *s)
 	if ('-' == *s || '+' == *s)
 	{
 		if ('-' == *s)
-			sign = -1;
+			negative = true;
 		++s;
 	}
 	while (isdigit(*s))
@@ -1051,7 +1052,7 @@ unsigned long	strToUnsignedLong(const char *s)
 		n = n * 10 + *s - '0';
 		++s;
 	}
-	return (n * sign);
+	return (negative ? -n : n);
 }
 
 double	strToDouble(const char *s, char **endptr)
@@ -1059,7 +1060,7 @@ double	strToDouble(const char *s, char **endptr)
 	double	num = 0.0;
 	double	precision = 10.0;
 	int		exponent = 0;
-	int		negative = 0;
+	bool	negative = false;
 
 	if (NULL == s)
 		return (0);
@@ -1068,7 +1069,7 @@ double	strToDouble(const char *s, char **endptr)
 	if ('-' == *s || '+' == *s)
 	{
 		if ('-' == *s)
-			negative = 1;
+			negative = true;
 		++s;
 	}
 	while (isdigit(*s))
@@ -1093,12 +1094,12 @@ double	strToDouble(const char *s, char **endptr)
 	if ('e' == tolower(*s))
 	{
 		const char	*exp = ++s;
-		int			exp_negative = 0;
+		bool		exp_negative = false;
 
 		if ('-' == *s || '+' == *s)
 		{
 			if ('-' == *s)
-				exp_negative = 1;
+				exp_negative = true;
 			++s;
 		}
 		while (isdigit(*s))
@@ -1175,19 +1176,19 @@ char	*strToLower(char *s)
 
 size_t	strCountWords(const char *s, const char *set)
 {
-	size_t		count = 0;
-	short int	is_word = 1;
+	size_t	count = 0;
+	bool	is_word = true;
 
 	if (NULL == s || NULL == set)
 		return (0);
 	while (*s)
 	{
 		if (strFindFirstOfChar(set, *s))
-			is_word = 1;
+			is_word = true;
 		else if (is_word)
 		{
 			count++;
-			is_word = 0;
+			is_word = false;
 		}
 		++s;
 	}
